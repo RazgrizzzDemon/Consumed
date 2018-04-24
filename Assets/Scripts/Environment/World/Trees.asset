@@ -9,16 +9,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: Grass
+  m_Name: Trees
   m_EditorClassIdentifier: Assembly-CSharp::VegitationSpecs
-  speciesName: Grass
-  modelPrefab: {fileID: 1079399676434304, guid: 046c567d526fcb6479bb86fa45271583,
-    type: 2}
+  speciesName: Trees
+  modelPrefab:
+  - {fileID: 1056299735679736, guid: 35b54b0e07f64f94cb1ace8872d8d188, type: 2}
+  - {fileID: 1632781423431058, guid: 279bb0eb9f173374d9f7463fd7ac59a0, type: 2}
+  - {fileID: 1505193490293234, guid: af2376d8d0f69f24597858abb0b570e6, type: 2}
   maxPlantationLimit: 200
-  startPlantationLimit: 200
-  plantationsNum: 1
-  worldZdepth: -4
-  isSprites: 1
+  startPlantationLimit: 10
+  plantationsNum: 6
+  worldZdepth: 9.6
+  isRandomRotY: 1
+  isSprites: 0
   pivotIsBase: 1
   species:
   - {fileID: 0}

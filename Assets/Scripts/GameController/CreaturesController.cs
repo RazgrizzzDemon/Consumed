@@ -88,15 +88,16 @@ public class SpeciesSpecs: ScriptableObject {
     }
 }
 
-[CreateAssetMenu(fileName = "Creature", menuName = "Species/vegitation", order = 1)]
+[CreateAssetMenu(fileName = "Vegitation", menuName = "Species/vegitation", order = 1)]
 public class VegitationSpecs: ScriptableObject {
 
     public string speciesName = "";
-    public GameObject modelPrefab;
+    public GameObject[] modelPrefab;
     public int maxPlantationLimit;
     public int startPlantationLimit;
     public int plantationsNum;
     public float worldZdepth;
+    public bool isRandomRotY = false;
     public bool isSprites;
     public bool pivotIsBase;
     [HideInInspector]
@@ -110,7 +111,11 @@ public class VegitationSpecs: ScriptableObject {
         speicesContainer = new GameObject(speciesName);
         for (int i = 0; i < species.Length; i++) {
             // Instantiate
-            species[i] = MonoBehaviour.Instantiate(modelPrefab, speicesContainer.transform);
+            int _modelSelect = 0;
+            if(modelPrefab.Length > 1) {
+                _modelSelect = UnityEngine.Random.Range(0, modelPrefab.Length);
+            }
+            species[i] = MonoBehaviour.Instantiate(modelPrefab[_modelSelect], speicesContainer.transform);
             // Name
             species[i].name = speciesName + " " + i;
             // Add Script and Attractor - World
@@ -130,7 +135,7 @@ public class VegitationSpecs: ScriptableObject {
     }
     // Position
     public void InitPosition(int _index, float _angle) {
-        species[_index].GetComponent<CreaturesBase>().PositionInWorld(_angle, worldZdepth);
+        species[_index].GetComponent<CreaturesBase>().PositionInWorld(_angle, worldZdepth, 0, isRandomRotY);
     }
 }
 

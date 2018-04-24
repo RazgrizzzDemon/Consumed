@@ -20,7 +20,7 @@ MonoBehaviour:
   nestsNum: 2
   maxSpeed: 2
   maxJumpForce: 0
-  worldZdepth: -2
+  worldZdepth: -2.5
   limitMovment: 0
   skeletonMesh: {fileID: 4300000, guid: c5f6967f565dfd7468a5509c2c0d50ce, type: 3}
   species:

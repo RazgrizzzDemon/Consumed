@@ -153,6 +153,19 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 718282407}
   m_Script: {fileID: 11500000, guid: bff9691228ed50742a81775e85798635, type: 3}
+--- !u!136 &606966987
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 606966981}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 80
+  m_Height: 187.08527
+  m_Direction: 2
+  m_Center: {x: -0, y: 0, z: -0.08178711}
 --- !u!1001 &718282407
 Prefab:
   m_ObjectHideFlags: 0
@@ -197,7 +210,13 @@ Prefab:
       propertyPath: gravity
       value: -9.81
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 64334495177327478, guid: fbeddc4e0dd4a9c4698e392b834ea459,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 64334495177327478, guid: fbeddc4e0dd4a9c4698e392b834ea459, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: fbeddc4e0dd4a9c4698e392b834ea459, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &885973845 stripped
@@ -274,7 +293,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4225699989222490, guid: 76396211f900d4745845dbe18287f2df, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 2.7
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 4225699989222490, guid: 76396211f900d4745845dbe18287f2df, type: 2}
       propertyPath: m_LocalRotation.x

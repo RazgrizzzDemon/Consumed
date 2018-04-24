@@ -117,12 +117,6 @@ public class CreatureWorldPositioning: MonoBehaviour {
 
     enum Angles { small, large};
 
-    // Testing
-    public GameObject markserSmall;
-    public GameObject markerLarge;
-    public bool showLimits = false;
-    public bool printAngle = false;
-
     // World
     public WorldGravAttraction attractor;
     float orientationOffset = -90f;
@@ -213,7 +207,7 @@ public class CreatureWorldPositioning: MonoBehaviour {
 
     // METHODS -----------------------------------------------------------
     // Position in world - 3D object with rigid body
-    public void PositionInWorld(float _angle, float _zDepth, float _limitAngle = 0f) {
+    public void PositionInWorld(float _angle, float _zDepth, float _limitAngle = 0f, bool randomRotY = false) {
         // Update Z Depth
         worldZdepth = _zDepth;
         // Update Angle
@@ -226,7 +220,7 @@ public class CreatureWorldPositioning: MonoBehaviour {
         creatureTransform.position = worldPos;
         // If Sprite Orient to world
         if (!isMovable) {
-            OrientToWolrdsSurface(2);
+            OrientToWolrdsSurface(2, randomRotY);
         }
         // Set Limits
         if (_limitAngle > 0) {
@@ -399,8 +393,27 @@ public class CreatureWorldPositioning: MonoBehaviour {
     }
 
     // Orient to wolrds surface (Tangential)
-    void OrientToWolrdsSurface(int _axis) {
+    void OrientToWolrdsSurface(int _axis, bool _randomRotY = false) {
         Vector3 _rot = new Vector3(0f, 0f, 0f);
+        int _selectRotY = 0;
+        int _newRot = 0;
+        // Static Objects - random rotation on Y
+        if (_randomRotY) {
+            _selectRotY = Random.Range(0, 4);
+            switch (_selectRotY) {
+                case 1:
+                    _newRot = 90;
+                    _axis = 0;
+                    break;
+                case 2:
+                    _newRot = 180;
+                    break;
+                case 3:
+                    _newRot = 270;
+                    _axis = 0;
+                    break;
+            }
+        }
         float _angle = worldAngleDeg + orientationOffset;
         if (float.IsNaN(_angle)) {
             _angle = 0f;
@@ -424,6 +437,13 @@ public class CreatureWorldPositioning: MonoBehaviour {
             else {
                 _rot[1] = 270f;
             }
+        }
+        // Static Objects - Upadte New rotation
+        if (_randomRotY) {
+            if(_selectRotY == 1 || _selectRotY == 2) {
+                _rot *= -1;
+            }
+            _rot[1] = _newRot;
         }
         creatureTransform.localEulerAngles = _rot;
     }

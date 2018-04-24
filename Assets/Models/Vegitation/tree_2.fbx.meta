@@ -1,22 +1,16 @@
 fileFormatVersion: 2
-guid: 2fc0af3ae9ca73d408ee026b6a3163a1
-timeCreated: 1524063020
+guid: 7ce02bc7905e52f4e9b31696fd015015
+timeCreated: 1524588546
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: //RootNode
-    100002: largeTree_canopy
     400000: //RootNode
-    400002: largeTree_canopy
-    2100000: lambert1
+    2100000: Environment_Mat
     2300000: //RootNode
-    2300002: largeTree_canopy
     3300000: //RootNode
-    3300002: largeTree_canopy
-    4300000: treeLarge_Trunk3
-    4300002: largeTree_canopy
-    4300004: treeLarge
+    4300000: Tree_2
   externalObjects: {}
   materials:
     importMaterials: 0
