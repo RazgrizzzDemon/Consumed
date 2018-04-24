@@ -23,7 +23,12 @@ public class CreaturesBase: CreatureWorldPositioning {
     float health = 100f;
     float hunger = 100f;
 
-
+    // CONDITIONS -------------------------------------------------------
+    public void ConditionsSetUp(int _maxAge, float _maxSize = 2f, float _minSize = 0.5f) {
+        maxAge = _maxAge;
+        maxSize = _maxSize;
+        minSize = _minSize;
+    }
     // INITIALIZE --------------------------------------------------------
     // Species type and behavior - on Awake is used when game is started to have rendom ages
     public void InitializeSpecies(string _type, bool onAwake = false) {
@@ -97,8 +102,10 @@ public class CreaturesBase: CreatureWorldPositioning {
             }
             gameObject.GetComponent<MeshFilter>().mesh = _mesh;
             // Deactivate rigidbody
-            gameObject.GetComponent<Rigidbody>().detectCollisions = isAlive;
-            gameObject.GetComponent<Rigidbody>().isKinematic = !isAlive;
+            if (gameObject.GetComponent<Rigidbody>()) {
+                gameObject.GetComponent<Rigidbody>().detectCollisions = isAlive;
+                gameObject.GetComponent<Rigidbody>().isKinematic = !isAlive;
+            }
             // If Dead place on ground
             if (!isAlive) {
                 PositionInWorld(worldAngleDeg, worldZdepth);

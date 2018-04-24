@@ -96,7 +96,9 @@ public class VegitationSpecs: ScriptableObject {
     public int maxPlantationLimit;
     public int startPlantationLimit;
     public int plantationsNum;
+    public int maxAge;
     public float worldZdepth;
+    public Mesh[] deadVegMesh;
     public bool isRandomRotY = false;
     public bool isSprites;
     public bool pivotIsBase;
@@ -124,8 +126,15 @@ public class VegitationSpecs: ScriptableObject {
             species[i].GetComponent<CreaturesBase>().indexId = i;
             // Set World Radius
             species[i].GetComponent<CreaturesBase>().WorldRadius = _worldRadius;
-            // Set to inactive
-            species[i].SetActive(false);
+            // Setup skeleton
+            if(deadVegMesh.Length > 0) {
+                species[i].GetComponent<CreaturesBase>().SkeletonSetup(deadVegMesh[_modelSelect]);
+                // Set Inactive
+                species[i].GetComponent<CreaturesBase>().Terminate();
+            }
+            else {
+                species[i].SetActive(false);
+            }
         }
     }
     // METHODS ---------------------------------------------------------------
@@ -133,9 +142,23 @@ public class VegitationSpecs: ScriptableObject {
     public void Active(int _index, bool _ans) {
         species[_index].SetActive(_ans);
     }
-    // Position
-    public void InitPosition(int _index, float _angle) {
+    // Spawn to world
+    public void InitSpawn(int _index, float _angle) {
         species[_index].GetComponent<CreaturesBase>().PositionInWorld(_angle, worldZdepth, 0, isRandomRotY);
+        species[_index].GetComponent<CreaturesBase>().ConditionsSetUp(maxAge);
+        species[_index].GetComponent<CreaturesBase>().InitializeSpecies(speciesName, true);
+    }
+    // Check if it is still Alive
+    bool CheckIfAlive(int _index) {
+        return species[_index].GetComponent<CreaturesBase>().isAlive;
+    }
+    // Age
+    public void AgeUpdate() {
+        for (int i = 0; i < species.Length; i++) {
+            if (CheckIfAlive(i)) {
+                species[i].GetComponent<CreaturesBase>().AgeUpdate();
+            }
+        }
     }
 }
 
@@ -209,6 +232,10 @@ public class CreaturesController : MonoBehaviour {
             for (int i = 0; i < speciesSpecs.Length; i++) {
                 speciesSpecs[i].AgeUpdate();
             }
+            // Vegitation Age
+            for (int i = 0; i < speciesSpecs.Length; i++) {
+                vegitationSpecs[i].AgeUpdate();
+            }
         }
     }
 
@@ -270,7 +297,7 @@ public class CreaturesController : MonoBehaviour {
                     _nextPos -= _speciesSize;
                 }
                 vegitationSpecs[_type].Active(j, true);
-                vegitationSpecs[_type].InitPosition(j, _nextPos);
+                vegitationSpecs[_type].InitSpawn(j, _nextPos);
             }
         }
     }

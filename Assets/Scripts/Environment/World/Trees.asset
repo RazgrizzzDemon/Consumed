@@ -19,7 +19,12 @@ MonoBehaviour:
   maxPlantationLimit: 200
   startPlantationLimit: 10
   plantationsNum: 6
+  maxAge: 1000
   worldZdepth: 9.6
+  deadVegMesh:
+  - {fileID: 4300000, guid: 54e160cbb855c8542baebfaa7c115cc0, type: 3}
+  - {fileID: 4300000, guid: f787af574ca5d5c43889246792770752, type: 3}
+  - {fileID: 4300000, guid: 82663e301c8b620409172e845b1c123e, type: 3}
   isRandomRotY: 1
   isSprites: 0
   pivotIsBase: 1

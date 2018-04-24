@@ -17,7 +17,9 @@ MonoBehaviour:
   maxPlantationLimit: 200
   startPlantationLimit: 200
   plantationsNum: 1
+  maxAge: 100
   worldZdepth: -10.5
+  deadVegMesh: []
   isRandomRotY: 0
   isSprites: 1
   pivotIsBase: 1
