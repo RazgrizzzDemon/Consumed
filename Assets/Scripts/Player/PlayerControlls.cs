@@ -23,9 +23,13 @@ public class PlayerControlls : MonoBehaviour {
     float distanceFromCore; // The players distance from the plantes core
     float worldAngleDeg;
     float orientationOffset = -90f;
+    GameObject modelTransformGrp;
+    Animator animator;
 
     private void Awake() {
         playerRigidBody = GetComponent<Rigidbody>();
+        modelTransformGrp = gameObject.transform.GetChild(0).gameObject;
+        animator = modelTransformGrp.transform.GetChild(0).gameObject.GetComponent<Animator>();
         worldRadius = world.GetComponent<Renderer>().bounds.size[0] / 2f;
     }
 
@@ -39,8 +43,23 @@ public class PlayerControlls : MonoBehaviour {
             isJump = true;
             jumpDir = CalculateWorldPosition(worldAngleDeg, jumpForce);
         }
+        // rotate model towards direction
+        if(moveDir[0] > 0) {
+            modelTransformGrp.transform.localEulerAngles = new Vector3(0f, 90f, 0f);
+        }
+        else if(moveDir[0] < 0) {
+            modelTransformGrp.transform.localEulerAngles = new Vector3(0f, 270f, 0f);
+        }
+        // Bite
+        if(Input.GetAxisRaw("Fire1") > 0 && !animator.GetBool("BiteAnim")) {
+            animator.SetBool("BiteAnim", true);
+        }
+        else if (Input.GetAxisRaw("Fire1") == 0) {
+            animator.SetBool("BiteAnim", false);
+        }
     }
 
+    // POSITIONING AND MOVEMENT ---------------------------------------------------------------------------------
     Vector3 CalculateWorldPosition(float _angle, float _mulitplier = 1, int _xAxis = 0, int _yAxis = 1) {
         Vector3 _pos = new Vector3();
         // Cos angle will give us the x Axis
@@ -79,19 +98,6 @@ public class PlayerControlls : MonoBehaviour {
             _angle = 360f + _angle;
         }
         _rot[_axis] = _angle;
-
-        //if (isMovable) {
-        //    if (currentDirection == clockwise) {
-        //        _rot[1] = 90f;
-        //        _rot[_axis] *= -1;
-        //    }
-        //    else if (currentDirection == antiClockwise) {
-        //        _rot[1] = 270f;
-        //    }
-        //    else {
-        //        _rot[1] = 270f;
-        //    }
-        //}
         transform.localEulerAngles = _rot;
     }
 
@@ -101,6 +107,17 @@ public class PlayerControlls : MonoBehaviour {
         if (isJump) {
             playerRigidBody.AddForce(jumpDir);
             isJump = false;
+        }
+    }
+
+    // TRIGGERS ----------------------------------------------------------
+    private void OnTriggerStay(Collider other) {
+        if (animator.GetBool("BiteAnim") && other.gameObject.tag.Equals("LifeForm")) {
+            CreaturesBase creatureBase = other.gameObject.GetComponent<CreaturesBase>();
+            if (creatureBase.isAlive) {
+                GetComponent<PlayerStats>().Grow(creatureBase.Harvest());
+                creatureBase.Die();
+            }
         }
     }
 

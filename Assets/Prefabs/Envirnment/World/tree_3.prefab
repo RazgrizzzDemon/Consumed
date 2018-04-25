@@ -21,9 +21,10 @@ GameObject:
   - component: {fileID: 4283770866892456}
   - component: {fileID: 33300560407043110}
   - component: {fileID: 23758054867992800}
+  - component: {fileID: 65237201295211876}
   m_Layer: 0
   m_Name: tree_3
-  m_TagString: Untagged
+  m_TagString: LifeForm
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -82,3 +83,15 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1505193490293234}
   m_Mesh: {fileID: 4300000, guid: 9173e48b6c485d9458d62638a5393a9c, type: 3}
+--- !u!65 &65237201295211876
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1505193490293234}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.805678, y: 7.9833255, z: 4.108591}
+  m_Center: {x: 0, y: 3.9916627, z: 0}

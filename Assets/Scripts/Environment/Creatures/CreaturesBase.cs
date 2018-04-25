@@ -73,9 +73,7 @@ public class CreaturesBase: CreatureWorldPositioning {
         age++;
         // Die
         if(age == maxAge) {
-            isAlive = false;
-            // Spawn skeleton
-            SkeletonMeshUpdate();
+            Die();
         }
         // grow
         else {
@@ -85,6 +83,20 @@ public class CreaturesBase: CreatureWorldPositioning {
 
     // Search for partner and reproduce
     public void Reproduce() {
+    }
+
+    // Harvested for food - Eaten by somthing else
+    // 1 is tha maximum mount of food that can be given
+    // the older the more food it will give
+    public float Harvest() {
+        return (float)age / maxAge;
+    }
+
+    // Die
+    public void Die() {
+        isAlive = false;
+        // Spawn skeleton
+        SkeletonMeshUpdate();
     }
 
     // Skeleton Mesh setup, Setup Meshes
@@ -106,6 +118,10 @@ public class CreaturesBase: CreatureWorldPositioning {
                 gameObject.GetComponent<Rigidbody>().detectCollisions = isAlive;
                 gameObject.GetComponent<Rigidbody>().isKinematic = !isAlive;
             }
+            // Deactivate Box Colider
+            if (gameObject.GetComponent<BoxCollider>()) {
+                gameObject.GetComponent<BoxCollider>().enabled = isAlive;
+            }
             // If Dead place on ground
             if (!isAlive) {
                 PositionInWorld(worldAngleDeg, worldZdepth);
@@ -115,7 +131,7 @@ public class CreaturesBase: CreatureWorldPositioning {
             
         }
         else {
-            Debug.LogWarning("Need to setup Skeleton before");
+            //Debug.LogWarning("Need to setup Skeleton before: " + gameObject.name);
         }
     }
 }

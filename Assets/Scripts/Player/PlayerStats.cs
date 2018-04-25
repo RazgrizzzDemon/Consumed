@@ -2,17 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStats {
+public class PlayerStats: MonoBehaviour {
 
-    public static float multiplier;
+    float growSize = 1f;
+    public  float maxGrowSize;
+    public  float growRate;
 
-    public static float health;
-    public static float speed;
-    public static float stamina;
-    public static float hunger;
+    float health = 100f;
+    float stamina = 100f;
+    float hunger = 100f;
 
-    public static float evolutionBar = 0f;
-    public static int evolveState = 0;
+    public void Grow(float _foodIntake) {
+        growSize += ((_foodIntake * growRate) );
+        ScaleUpdate(growSize);
+    }
 
+    void ScaleUpdate(float _growSize) {
+        gameObject.transform.localScale = new Vector3(_growSize, _growSize, _growSize);
+    }
 
 }
