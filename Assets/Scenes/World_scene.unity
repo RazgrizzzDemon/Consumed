@@ -152,16 +152,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 114194266405362884, guid: a339639212e8625489a5540a6c21c550,
-        type: 2}
-      propertyPath: attractor
-      value: 
-      objectReference: {fileID: 606966982}
     - target: {fileID: 114366697501988082, guid: a339639212e8625489a5540a6c21c550,
         type: 2}
       propertyPath: world
       value: 
       objectReference: {fileID: 606966981}
+    - target: {fileID: 114194266405362884, guid: a339639212e8625489a5540a6c21c550,
+        type: 2}
+      propertyPath: attractor
+      value: 
+      objectReference: {fileID: 606966982}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a339639212e8625489a5540a6c21c550, type: 2}
   m_IsPrefabParent: 0

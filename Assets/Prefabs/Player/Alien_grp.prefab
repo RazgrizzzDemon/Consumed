@@ -604,7 +604,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81e4dba167bded44999a670943e3cdd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxGrowSize: 8
+  maxGrowSize: 11
   growRate: 0.5
 --- !u!137 &137120270900352946
 SkinnedMeshRenderer:

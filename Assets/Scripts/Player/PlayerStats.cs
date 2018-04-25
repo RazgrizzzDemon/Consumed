@@ -14,11 +14,16 @@ public class PlayerStats: MonoBehaviour {
 
     public void Grow(float _foodIntake) {
         growSize += ((_foodIntake * growRate) );
+        if(growSize > maxGrowSize) {
+            growSize = maxGrowSize;
+        }
         ScaleUpdate(growSize);
     }
 
     void ScaleUpdate(float _growSize) {
-        gameObject.transform.localScale = new Vector3(_growSize, _growSize, _growSize);
+        if(gameObject.transform.localScale.x != growSize) {
+            gameObject.transform.localScale = new Vector3(_growSize, _growSize, _growSize);
+        }
     }
 
 }
