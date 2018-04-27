@@ -9,18 +9,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: Pigs
-  m_EditorClassIdentifier: Assembly-CSharp::SpeciesSpecs
+  m_Name: Pig
+  m_EditorClassIdentifier: Assembly-CSharp::CreatureSpecs
   speciesName: Pig
   modelPrefab: {fileID: 1076374623133548, guid: 5ac58603b0311784c96409c66e1c369c,
     type: 2}
   matreial: {fileID: 2100000, guid: b414f4a1559aee74cbe0bc5c3d1fafa4, type: 2}
   maxHerdLimit: 50
-  startHerdLimit: 5
-  nestsNum: 3
-  maxSpeed: 1
-  maxJumpForce: 500
-  worldZdepth: 4.5
+  startHerdLimit: 7
+  nestsNum: 5
+  maxSpeed: 2
+  maxJumpForce: 600
+  zLayerNumber: 1
+  worldZdepth: 3.0442977
   limitMovment: 1
   skeletonMesh: {fileID: 4300000, guid: 56892f43d7c972346ada26e6a5faeca0, type: 3}
   species:

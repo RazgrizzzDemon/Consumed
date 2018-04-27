@@ -5,7 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - World
-  - LifeForm
+  - Vegitation
+  - Creature
   layers:
   - Default
   - TransparentFX

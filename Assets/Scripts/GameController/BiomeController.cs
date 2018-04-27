@@ -2,9 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "Creature", menuName = "Species/creatures", order = 1)]
-public class SpeciesSpecs: ScriptableObject {
+public class CreatureSpecs: ScriptableObject {
 
     public string speciesName = "";
     public GameObject modelPrefab;
@@ -14,6 +15,8 @@ public class SpeciesSpecs: ScriptableObject {
     public int nestsNum;
     public float maxSpeed;
     public float maxJumpForce;
+    public int zLayerNumber; // 0 is the furthest away
+    [HideInInspector]
     public float worldZdepth;
     public bool limitMovment = true;
     public Mesh skeletonMesh;
@@ -32,7 +35,7 @@ public class SpeciesSpecs: ScriptableObject {
             // Name
             species[i].name = speciesName + " " + i;
             // Add Script and Attractor - World
-            species[i].AddComponent<CreaturesBase>().InitializePositioning(_worldRadius, ref _attractor);
+            species[i].AddComponent<CreaturesBase>().InitializePositioning(_worldRadius, ref _attractor, species[i].GetComponent<CreaturesBase>().maxSize);
             // Add material
             species[i].GetComponent<Renderer>().material = matreial;
             // Set Index
@@ -97,6 +100,8 @@ public class VegitationSpecs: ScriptableObject {
     public int startPlantationLimit;
     public int plantationsNum;
     public int maxAge;
+    public int zLayerNumber; // 0 is the furthest away
+    [HideInInspector]
     public float worldZdepth;
     public Mesh[] deadVegMesh;
     public bool isRandomRotY = false;
@@ -121,7 +126,7 @@ public class VegitationSpecs: ScriptableObject {
             // Name
             species[i].name = speciesName + " " + i;
             // Add Script and Attractor - World
-            species[i].AddComponent<CreaturesBase>().InitializePositioning(_worldRadius, ref _attractor, pivotIsBase , isSprites);
+            species[i].AddComponent<CreaturesBase>().InitializePositioning(_worldRadius, ref _attractor, species[i].GetComponent<CreaturesBase>().maxSize, pivotIsBase , isSprites);
             // Set Index
             species[i].GetComponent<CreaturesBase>().indexId = i;
             // Set World Radius
@@ -162,32 +167,39 @@ public class VegitationSpecs: ScriptableObject {
     }
 }
 
-public class CreaturesController : MonoBehaviour {
-
-    enum CreatureType { herbivour, carnivour}
-    enum VegitationType { grass, trees}
+public class BiomeController : MonoBehaviour {
 
     // World
     [Header("World")]
     public GameObject world;
+    Vector3 worldBounds;
     float worldRadius;
     static float worldClock = 0f;
-    static float oneYearTime = 10f;
-    static int worldYear = 0;
+    static float oneDayTime = 1f;
+    static int worldDays = 1;
+    static int worldYears = 0;
+    public static float[] zDepthLayers;
+    public static int maxZlayers;
 
     [Space]
     // Creatures
     [Header("Creatures")]
-    public SpeciesSpecs[] speciesSpecs;
+    public CreatureSpecs[] creatureSpecs;
     [Space]
     [Header("Vegitation")]
     public VegitationSpecs[] vegitationSpecs;
+
+    // MONOBEHAVIOUR --------------------------------------------------------------------
     private void Awake() {
+        // Get Bounds
+        worldBounds = world.GetComponent<Renderer>().bounds.size;
         // Get World Radius
-        worldRadius = (world.GetComponent<Renderer>().bounds.size.x / 2f);
+        worldRadius = (worldBounds[0] / 2f);
+        // Z Depth Layer Setup
+        ZlayerLayout();
         // Create Species
-        for (int i = 0; i < speciesSpecs.Length; i++) {
-            speciesSpecs[i].Initialize(worldRadius, ref world);
+        for (int i = 0; i < creatureSpecs.Length; i++) {
+            creatureSpecs[i].Initialize(worldRadius, ref world);
             // Posiion
             NestDistributor(i);
         }
@@ -208,59 +220,95 @@ public class CreaturesController : MonoBehaviour {
 	void Update () {
         WorldTimeUpdate();
         // Auto MOve
-        for (int i = 0; i < speciesSpecs.Length; i++) {
-            speciesSpecs[i].AutoMove();
+        for (int i = 0; i < creatureSpecs.Length; i++) {
+            creatureSpecs[i].AutoMove();
         }
     }
 
     private void FixedUpdate() {
         // Update Rigid body
-        for (int i = 0; i < speciesSpecs.Length; i++) {
-            speciesSpecs[i].MoveUpdate();
+        for (int i = 0; i < creatureSpecs.Length; i++) {
+            creatureSpecs[i].MoveUpdate();
         }
     }
 
+    // METHODS ----------------------------------------------------------------------
     // Wolrd Time Update
     void WorldTimeUpdate() {
         // Time
         worldClock += Time.deltaTime;
-        if(worldClock >= oneYearTime) {
-            Debug.Log("Year ----------------------------------------------");
-            worldYear++;
+        if(worldClock >= oneDayTime) {
+            worldDays++;
+            // + One Year
+            if(worldDays > 365) {
+                worldYears++;
+                worldDays = 1;
+                // Creatures Age
+                for (int i = 0; i < creatureSpecs.Length; i++) {
+                    creatureSpecs[i].AgeUpdate();
+                }
+                // Vegitation Age
+                for (int i = 0; i < creatureSpecs.Length; i++) {
+                    vegitationSpecs[i].AgeUpdate();
+                }
+            }
+            // Reset Clock
             worldClock = 0f;
-            // Creatures Age
-            for (int i = 0; i < speciesSpecs.Length; i++) {
-                speciesSpecs[i].AgeUpdate();
-            }
-            // Vegitation Age
-            for (int i = 0; i < speciesSpecs.Length; i++) {
-                vegitationSpecs[i].AgeUpdate();
-            }
+            // String Update
+            UIController.YearUpdate("Years: " + worldYears + " /  Days: " + worldDays);
         }
     }
 
-    // Nest Distributor
-    void NestDistributor(int _type) {
-        float _speciesSize = speciesSpecs[_type].species[0].GetComponent<CreaturesBase>().fullOccupationAngle;
-        float _NestSize =  _speciesSize * speciesSpecs[_type].startHerdLimit;
-        float[] _NestsPos = new float[speciesSpecs[_type].nestsNum];
-        float _NestAngle = 360f / speciesSpecs[_type].nestsNum;
+    // Z Layer Layout - setts the position of each layer based on the number of creatures and vegitation.
+    void ZlayerLayout() {
+        // Gatter all biome species and devide by worlds  Z depth
+        maxZlayers = (creatureSpecs.Length + vegitationSpecs.Length);
+        float _layersSpacing = worldBounds[2] / maxZlayers;
+        float _halfLayerSpaceing = _layersSpacing / 2f;
+        // Set Z Layers Cneter position
+        zDepthLayers = new float[maxZlayers];
+        for (int i = 0; i < zDepthLayers.Length; i++) {
+            if (i == 0) {
+                zDepthLayers[i] = (worldBounds[2] / 2f) - _halfLayerSpaceing;
+            }
+            else {
+                zDepthLayers[i] = zDepthLayers[i - 1] - _layersSpacing;
+            }
+        }
+        // Assign to Species according to their layer preferance
+        // Creatures
+        for (int i = 0; i < creatureSpecs.Length; i++) {
+            creatureSpecs[i].worldZdepth = zDepthLayers[creatureSpecs[i].zLayerNumber];
+        }
+        // Vegitation
+        for (int i = 0; i < vegitationSpecs.Length; i++) {
+            vegitationSpecs[i].worldZdepth = zDepthLayers[vegitationSpecs[i].zLayerNumber];
+        }
+    }
+
+// LIFE FORMS -------------------------------------------------------------------------------------------
+// Nest Distributor
+void NestDistributor(int _type) {
+        float _speciesSize = creatureSpecs[_type].species[0].GetComponent<CreaturesBase>().fullOccupationAngle;
+        float _NestSize =  _speciesSize * creatureSpecs[_type].startHerdLimit;
+        float[] _NestsPos = new float[creatureSpecs[_type].nestsNum];
+        float _NestAngle = 360f / creatureSpecs[_type].nestsNum;
         float _nextPos = 0;
         int j = 0;
         for (int i = 0; i < _NestsPos.Length; i++) {
             // Set nest Angle
             _NestsPos[i] = _NestAngle * (i + 1);
             // Instantiate and position
-            for (; j < speciesSpecs[_type].startHerdLimit * (i + 1); j++) {
+            for (; j < creatureSpecs[_type].startHerdLimit * (i + 1); j++) {
                 // Check if first on Nest
-                if(j + 1 == ((i + 1) * speciesSpecs[_type].startHerdLimit)) {
+                if(j + 1 == ((i + 1) * creatureSpecs[_type].startHerdLimit)) {
                     // if yes its possition is on angle limit
                     _nextPos = (_NestsPos[i] + (_NestSize / 2f)) - _speciesSize;
                 }
                 else {
                     _nextPos -= (_speciesSize + (_speciesSize / 2f));
                 }
-                speciesSpecs[_type].InitSpawn(j, _nextPos, _NestSize);
+                creatureSpecs[_type].InitSpawn(j, _nextPos, _NestSize);
             }
         }
     }

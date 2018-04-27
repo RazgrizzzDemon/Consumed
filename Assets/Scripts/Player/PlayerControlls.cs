@@ -6,7 +6,9 @@ public class PlayerControlls : MonoBehaviour {
 
     public GameObject world;
     public float moveSpeed = 15f;
+    public static bool doubleSpeed = false;
     public float jumpForce;
+    public static bool jumpLock = true;
     bool canJump = true;
     bool isJump = false;
     Vector3 moveDir;
@@ -23,40 +25,103 @@ public class PlayerControlls : MonoBehaviour {
     float distanceFromCore; // The players distance from the plantes core
     float worldAngleDeg;
     float orientationOffset = -90f;
+    int currentZlayer = 1;
+    bool canSwithcLayer = true;
     GameObject modelTransformGrp;
+    PlayerStats playerStats;
     Animator animator;
+    public static bool isOmnivore = false;
 
     private void Awake() {
         playerRigidBody = GetComponent<Rigidbody>();
         modelTransformGrp = gameObject.transform.GetChild(0).gameObject;
         animator = modelTransformGrp.transform.GetChild(0).gameObject.GetComponent<Animator>();
         worldRadius = world.GetComponent<Renderer>().bounds.size[0] / 2f;
+        playerStats = GetComponent<PlayerStats>();
+        playerStats.EvolutionIncrimentUpdate();
+    }
+
+    private void Start() {
+        LayerSwitch(true); // position initial Z depth
     }
 
     // Update is called once per frame
     void Update () {
         CalculateAngleToWorld();
         OrientToWolrdsSurface(2);
+        ControlPlayer();
+        if (doubleSpeed) {
+            moveSpeed *= 2f;
+            doubleSpeed = false;
+        }
+    }
+
+    private void FixedUpdate() {
+        playerRigidBody.MovePosition(playerRigidBody.position + transform.TransformDirection(moveDir) * moveSpeed * Time.deltaTime);
+        if (isJump) {
+            playerRigidBody.AddForce(jumpDir);
+            isJump = false;
+        }
+    }
+
+    // METHODS --------------------------------------------------------------------------------------------------
+    void ControlPlayer() {
+        LayerSwitch();
+        // Move
         moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, 0);
-        if(canJump && Input.GetKeyDown(KeyCode.Space)) {
+        // Jump
+        if (!jumpLock && canJump && Input.GetKeyDown(KeyCode.Space)) {
             canJump = false;
             isJump = true;
             jumpDir = CalculateWorldPosition(worldAngleDeg, jumpForce);
         }
         // rotate model towards direction
-        if(moveDir[0] > 0) {
+        if (moveDir[0] > 0) {
             modelTransformGrp.transform.localEulerAngles = new Vector3(0f, 90f, 0f);
         }
-        else if(moveDir[0] < 0) {
+        else if (moveDir[0] < 0) {
             modelTransformGrp.transform.localEulerAngles = new Vector3(0f, 270f, 0f);
         }
         // Bite
-        if(Input.GetAxisRaw("Fire1") > 0 && !animator.GetBool("BiteAnim")) {
+        if (Input.GetAxisRaw("Fire1") > 0 && !animator.GetBool("BiteAnim")) {
             animator.SetBool("BiteAnim", true);
         }
         else if (Input.GetAxisRaw("Fire1") == 0) {
             animator.SetBool("BiteAnim", false);
         }
+    }
+
+    void LayerSwitch(bool _overRide = false) {
+        float _layerSwitch = Input.GetAxisRaw("Vertical");
+        if (!_overRide && !canSwithcLayer && _layerSwitch != 0) {
+            return;
+        }
+        canSwithcLayer = true;
+        if(_layerSwitch == 0 && !_overRide) {
+            return;
+        }
+        // Go Inwords (towards trees)
+        else if(_layerSwitch > 0) {
+            currentZlayer--;
+        }
+        // Go Outwords (towards grass)
+        else if(_layerSwitch < 0) {
+            currentZlayer++;
+        }
+        canSwithcLayer = false;
+        // Clean
+        if(currentZlayer < 0) {
+            currentZlayer = 0;
+        }
+        else if(currentZlayer > BiomeController.maxZlayers - 1) {
+            currentZlayer = BiomeController.maxZlayers - 1;
+        }
+        // Get current Pos
+        Vector3 _pos = transform.position;
+        // Set new Z depth
+        _pos[2] = BiomeController.zDepthLayers[currentZlayer];
+        // Update Pos
+        transform.position = _pos;
     }
 
     // POSITIONING AND MOVEMENT ---------------------------------------------------------------------------------
@@ -101,21 +166,12 @@ public class PlayerControlls : MonoBehaviour {
         transform.localEulerAngles = _rot;
     }
 
-
-    private void FixedUpdate() {
-    playerRigidBody.MovePosition(playerRigidBody.position + transform.TransformDirection(moveDir) * moveSpeed * Time.deltaTime);
-        if (isJump) {
-            playerRigidBody.AddForce(jumpDir);
-            isJump = false;
-        }
-    }
-
     // TRIGGERS ----------------------------------------------------------
     private void OnTriggerStay(Collider other) {
-        if (animator.GetBool("BiteAnim") && other.gameObject.tag.Equals("LifeForm")) {
+        if (animator.GetBool("BiteAnim") && (other.gameObject.tag.Equals("Creature") || (isOmnivore && other.gameObject.tag.Equals("Vegitation")))) {
             CreaturesBase creatureBase = other.gameObject.GetComponent<CreaturesBase>();
             if (creatureBase.isAlive) {
-                GetComponent<PlayerStats>().Grow(creatureBase.Harvest());
+                playerStats.Grow(creatureBase.Harvest());
                 creatureBase.Die();
             }
         }

@@ -1,0 +1,66 @@
+Biome - 19/5/18
+- Created Pig and Cat model
+- Created Pig and Cat skeleton model
+- Created world and sky plane.
+- Scripted Creature behavior.
+- Scripted creature allocation on world
+- Scripted vegitation allocatioon on world.
+
+####################################################
+
+Environment Update - 24/5/18
+- Species: Vegitation / creatures are now scriptable objects.
+- Changed Tree models
+- Added 3 different Tree models that will be randomly picked while building the planet
+- Updated Envirnemnt Texture
+- Arranged Z depth of layers
+- Random Tree rotation
+- Replaced Planet Mesh colider with Capsule coliser
+
+Vegitation Age - 24/5/18
+- Vegitation Ages
+- New method in CreatureBase: Conditions Setup
+- Trees age now set to 1000 from condition setup method
+- New dead tree models
+- Trees now die of age
+
+####################################################
+
+Alien - 25/5/18
+- Alien Model Created.
+- Alien Idle and Bite animantion created.
+- Organised Alien Hierarchy.
+- implemented rotation to face moving direction.
+- Alien Idle and Bite aanimation implimented.
+- Fire1 now is bite.
+- Added Kill mechanic on LifeForm Tagged objects.
+- Added Creature Harvest function.
+- implemented Alien Grow mechanic
+- Added tree colliders so they can be eaten.
+- Deactivated collider after tree is eaten to allow player to move through it.
+- Alien Scale now has a max size
+
+Camera - 25/5/15
+- Implimented Camera Follow. A group rotates around the planet while the camera goes up and down the local y axis.
+
+####################################################
+
+Biome - 27/5/18
+* Sun rise and sun down
+- Full occupational Angle on world is now calculated based on the max size of the creature/ vegitation
+- World is now split in layers dependent on the amount of species inhabitting it.
+
+Alien update - 27/5/18
+* Limit What to eat
+* Decrease Hunger and Health
+* Implement powers
+- Player mow can swith layes in Z depth. (kept the layer switch controlls to "Vertical Raw Axis" so maybe it will be easier to cross platforms)
+- Reduced Alien Eat Trigger size.
+- On Start, alien is moved to a layer. By default (1).
+
+UI - 27/5/18
+- Powers slide-in from bottom after evolution.
+- Date Log is now visible
+- Jump, speed, and omnivore icons created and assigned to their respective buttons.
+- Power Button is disabled and hides menu after selection
+- If more then one skill is aavailable, pannel does not go down before player selects them.

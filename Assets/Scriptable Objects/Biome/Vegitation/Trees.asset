@@ -20,7 +20,8 @@ MonoBehaviour:
   startPlantationLimit: 10
   plantationsNum: 6
   maxAge: 1000
-  worldZdepth: 9.6
+  zLayerNumber: 0
+  worldZdepth: 9.132893
   deadVegMesh:
   - {fileID: 4300000, guid: 54e160cbb855c8542baebfaa7c115cc0, type: 3}
   - {fileID: 4300000, guid: f787af574ca5d5c43889246792770752, type: 3}

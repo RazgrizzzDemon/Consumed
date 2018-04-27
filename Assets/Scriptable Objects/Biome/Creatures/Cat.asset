@@ -9,18 +9,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: Cats
-  m_EditorClassIdentifier: Assembly-CSharp::SpeciesSpecs
+  m_Name: Cat
+  m_EditorClassIdentifier: Assembly-CSharp::CreatureSpecs
   speciesName: Cat
   modelPrefab: {fileID: 1629845386683008, guid: 5eb4a0ad8e643dd44a2f9c152dfcde16,
     type: 2}
   matreial: {fileID: 2100000, guid: b414f4a1559aee74cbe0bc5c3d1fafa4, type: 2}
   maxHerdLimit: 25
   startHerdLimit: 2
-  nestsNum: 2
-  maxSpeed: 2
+  nestsNum: 3
+  maxSpeed: 5
   maxJumpForce: 0
-  worldZdepth: -2.5
+  zLayerNumber: 2
+  worldZdepth: -3.0442972
   limitMovment: 0
   skeletonMesh: {fileID: 4300000, guid: c5f6967f565dfd7468a5509c2c0d50ce, type: 3}
   species:

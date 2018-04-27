@@ -15,7 +15,7 @@ public class CreaturesBase: CreatureWorldPositioning {
     int maxAge = 100; // The maximum age a creature can live, at max age creatures die
     public bool isMale = false; // Finds a partner to reproduce
     public float size; // the actual size of the creature (scale of object)
-    float maxSize = 2f; // The maximum size a creature can grow
+    public float maxSize = 2f; // The maximum size a creature can grow
     float minSize = 0.5f; // The minimum size a creature can be born
 
     // Needs
@@ -24,6 +24,7 @@ public class CreaturesBase: CreatureWorldPositioning {
     float hunger = 100f;
 
     // CONDITIONS -------------------------------------------------------
+    // Custimise creature conditions
     public void ConditionsSetUp(int _maxAge, float _maxSize = 2f, float _minSize = 0.5f) {
         maxAge = _maxAge;
         maxSize = _maxSize;
@@ -188,7 +189,7 @@ public class CreatureWorldPositioning: MonoBehaviour {
     
 
     // INITIALIZER ----------------------------------------------------------
-    public void InitializePositioning(float _radius, ref GameObject _attractor, bool _pivotIsBase = false ,bool _isSprite = false) {
+    public void InitializePositioning(float _radius, ref GameObject _attractor, float _maxScale, bool _pivotIsBase = false ,bool _isSprite = false) {
         // World attractor
         attractor = _attractor.GetComponent<WorldGravAttraction>();
         // Is pivot located at base
@@ -206,12 +207,21 @@ public class CreatureWorldPositioning: MonoBehaviour {
         // World radius + bounds of creature
         WorldRadius = _radius;
         // World Ocupation
-        float _sideC = Mathf.Sqrt(Mathf.Pow(_radius, 2f) + Mathf.Pow(bounds[0] / 2f, 2));
-        float _halfAngle = Mathf.Asin((Mathf.Sin(90f * Mathf.Deg2Rad) / _sideC) * (bounds[0] / 2f)) * Mathf.Rad2Deg;
-        fullOccupationAngle = (_halfAngle * 2f);
+        WorldOccupationAngle(_maxScale);
     }
 
     // SETUP --------------------------------------------------------------
+    public void WorldOccupationAngle(float _scale = 1) {
+        // Scale to Max Size
+        float _currentScale = gameObject.transform.localScale.x; // preserve current scale
+        if(_currentScale != _scale) {
+            gameObject.transform.localScale = new Vector3(_scale, _scale, _scale); // update to Max scale
+        }
+        // World Ocupation
+        float _sideC = Mathf.Sqrt(Mathf.Pow(WorldRadius, 2f) + Mathf.Pow(bounds[0] / 2f, 2));
+        float _halfAngle = Mathf.Asin((Mathf.Sin(90f * Mathf.Deg2Rad) / _sideC) * (bounds[0] / 2f)) * Mathf.Rad2Deg;
+        fullOccupationAngle = (_halfAngle * 2f);
+    }
     public void MoveSetup(float _moveSpeed, float _jumpForce = 0f) {
         moveSpeed = _moveSpeed;
         if(moveSpeed != 0) {

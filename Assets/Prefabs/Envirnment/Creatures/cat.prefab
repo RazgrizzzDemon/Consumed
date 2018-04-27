@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 54190915010192138}
   m_Layer: 0
   m_Name: cat
-  m_TagString: LifeForm
+  m_TagString: Creature
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
