@@ -4,170 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[CreateAssetMenu(fileName = "Creature", menuName = "Species/creatures", order = 1)]
-public class CreatureSpecs: ScriptableObject {
-
-    public string speciesName = "";
-    public GameObject modelPrefab;
-    public Material matreial;
-    public int maxHerdLimit;
-    public int startHerdLimit;
-    public int nestsNum;
-    public float maxSpeed;
-    public float maxJumpForce;
-    public int zLayerNumber; // 0 is the furthest away
-    [HideInInspector]
-    public float worldZdepth;
-    public bool limitMovment = true;
-    public Mesh skeletonMesh;
-    [HideInInspector]
-    public GameObject[] species;
-    [HideInInspector]
-    public GameObject speicesContainer;
-
-    // INITIALIZE ---------------------------------------------------------------
-    public void Initialize(float _worldRadius, ref GameObject _attractor) {
-        species = new GameObject[maxHerdLimit];
-        speicesContainer = new GameObject(speciesName);
-        for (int i = 0; i < species.Length; i++) {
-            // Instantiate
-            species[i] = MonoBehaviour.Instantiate(modelPrefab, speicesContainer.transform);
-            // Name
-            species[i].name = speciesName + " " + i;
-            // Add Script and Attractor - World
-            species[i].AddComponent<CreaturesBase>().InitializePositioning(_worldRadius, ref _attractor, species[i].GetComponent<CreaturesBase>().maxSize);
-            // Add material
-            species[i].GetComponent<Renderer>().material = matreial;
-            // Set Index
-            species[i].GetComponent<CreaturesBase>().indexId = i;
-            // Move Setup
-            species[i].GetComponent<CreaturesBase>().MoveSetup(maxSpeed, maxJumpForce);
-            // Set World Radius
-            species[i].GetComponent<CreaturesBase>().WorldRadius = _worldRadius;
-            // Setup skeleton
-            species[i].GetComponent<CreaturesBase>().SkeletonSetup(skeletonMesh);
-            // Set Inactive
-            species[i].GetComponent<CreaturesBase>().Terminate();
-        }
-    }
-    // METHODS ---------------------------------------------------------------
-    // Check if it is still Alive
-    bool CheckIfAlive(int _index) {
-        return species[_index].GetComponent<CreaturesBase>().isAlive;
-    }
-    // Spawn to world
-    public void InitSpawn(int _index, float _angle, float _limitAngle = 0) {
-        if (limitMovment) {
-            species[_index].GetComponent<CreaturesBase>().PositionInWorld(_angle, worldZdepth, _limitAngle);
-        }
-        else {
-            species[_index].GetComponent<CreaturesBase>().PositionInWorld(_angle, worldZdepth);
-        }
-        species[_index].GetComponent<CreaturesBase>().InitializeSpecies(speciesName, true);
-    }
-    // Auto Move
-    public void AutoMove() {
-        for (int i = 0; i < species.Length; i++) {
-            if (CheckIfAlive(i)) {
-                species[i].GetComponent<CreaturesBase>().AutoMove();
-            }
-        }
-    }
-    // Move Update - RigidBody (Fixed Update)
-    public void MoveUpdate() {
-        for (int i = 0; i < species.Length; i++) {
-            if (CheckIfAlive(i)) {
-                species[i].GetComponent<CreaturesBase>().MoveUpdate();
-            }
-        }
-    }
-    // Age
-    public void AgeUpdate() {
-        for (int i = 0; i < species.Length; i++) {
-            if (CheckIfAlive(i)) {
-                species[i].GetComponent<CreaturesBase>().AgeUpdate();
-            }
-        }
-    }
-}
-
-[CreateAssetMenu(fileName = "Vegitation", menuName = "Species/vegitation", order = 1)]
-public class VegitationSpecs: ScriptableObject {
-
-    public string speciesName = "";
-    public GameObject[] modelPrefab;
-    public int maxPlantationLimit;
-    public int startPlantationLimit;
-    public int plantationsNum;
-    public int maxAge;
-    public int zLayerNumber; // 0 is the furthest away
-    [HideInInspector]
-    public float worldZdepth;
-    public Mesh[] deadVegMesh;
-    public bool isRandomRotY = false;
-    public bool isSprites;
-    public bool pivotIsBase;
-    [HideInInspector]
-    public GameObject[] species;
-    [HideInInspector]
-    public GameObject speicesContainer;
-
-    // INITIALIZE ---------------------------------------------------------------
-    public void Initialize(float _worldRadius, ref GameObject _attractor) {
-        species = new GameObject[maxPlantationLimit];
-        speicesContainer = new GameObject(speciesName);
-        for (int i = 0; i < species.Length; i++) {
-            // Instantiate
-            int _modelSelect = 0;
-            if(modelPrefab.Length > 1) {
-                _modelSelect = UnityEngine.Random.Range(0, modelPrefab.Length);
-            }
-            species[i] = MonoBehaviour.Instantiate(modelPrefab[_modelSelect], speicesContainer.transform);
-            // Name
-            species[i].name = speciesName + " " + i;
-            // Add Script and Attractor - World
-            species[i].AddComponent<CreaturesBase>().InitializePositioning(_worldRadius, ref _attractor, species[i].GetComponent<CreaturesBase>().maxSize, pivotIsBase , isSprites);
-            // Set Index
-            species[i].GetComponent<CreaturesBase>().indexId = i;
-            // Set World Radius
-            species[i].GetComponent<CreaturesBase>().WorldRadius = _worldRadius;
-            // Setup skeleton
-            if(deadVegMesh.Length > 0) {
-                species[i].GetComponent<CreaturesBase>().SkeletonSetup(deadVegMesh[_modelSelect]);
-                // Set Inactive
-                species[i].GetComponent<CreaturesBase>().Terminate();
-            }
-            else {
-                species[i].SetActive(false);
-            }
-        }
-    }
-    // METHODS ---------------------------------------------------------------
-    // Activate
-    public void Active(int _index, bool _ans) {
-        species[_index].SetActive(_ans);
-    }
-    // Spawn to world
-    public void InitSpawn(int _index, float _angle) {
-        species[_index].GetComponent<CreaturesBase>().PositionInWorld(_angle, worldZdepth, 0, isRandomRotY);
-        species[_index].GetComponent<CreaturesBase>().ConditionsSetUp(maxAge);
-        species[_index].GetComponent<CreaturesBase>().InitializeSpecies(speciesName, true);
-    }
-    // Check if it is still Alive
-    bool CheckIfAlive(int _index) {
-        return species[_index].GetComponent<CreaturesBase>().isAlive;
-    }
-    // Age
-    public void AgeUpdate() {
-        for (int i = 0; i < species.Length; i++) {
-            if (CheckIfAlive(i)) {
-                species[i].GetComponent<CreaturesBase>().AgeUpdate();
-            }
-        }
-    }
-}
-
 public class BiomeController : MonoBehaviour {
+
+    enum skyTypes { day, dawnDusk, night}
 
     // World
     [Header("World")]
@@ -189,6 +28,17 @@ public class BiomeController : MonoBehaviour {
     [Header("Vegitation")]
     public VegitationSpecs[] vegitationSpecs;
 
+    [Space]
+    // Day and Night
+    [Header("Day and Night")]
+    public GameObject starMaskRevolveObj;
+    SpriteRenderer starMaskSpr;
+    public Color[] skyColors;
+    public float dawnDuskAngle = 30f;
+    Vector2 dawnAngles = new Vector2();// Direction is towards vector angle, Clock wise is dawn.
+    Vector2 duskAngles = new Vector2(); // Direction is towards vector angle, Anti-clockwise is duck.
+    float dawnDuskRange; // the range between angles
+
     // MONOBEHAVIOUR --------------------------------------------------------------------
     private void Awake() {
         // Get Bounds
@@ -209,6 +59,14 @@ public class BiomeController : MonoBehaviour {
             // Position
             PlantationDistributor(i);
         }
+        // Dawn and dusk angles
+        duskAngles[0] = 180f - (dawnDuskAngle / 2f);
+        duskAngles[1] = 180f + (dawnDuskAngle / 2f);
+        dawnAngles[0] = 360f - (dawnDuskAngle / 2f);
+        dawnAngles[1] = 0f + (dawnDuskAngle / 2f);
+        dawnDuskRange = duskAngles[1] - duskAngles[0];
+        // Get Star Mask Sprite
+        starMaskSpr = starMaskRevolveObj.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>();
     }
 
     // Use this for initialization
@@ -225,6 +83,11 @@ public class BiomeController : MonoBehaviour {
         }
     }
 
+    // Late update so that player movement will be already avaluated
+    private void LateUpdate() {
+        SkyColor();
+    }
+
     private void FixedUpdate() {
         // Update Rigid body
         for (int i = 0; i < creatureSpecs.Length; i++) {
@@ -233,11 +96,15 @@ public class BiomeController : MonoBehaviour {
     }
 
     // METHODS ----------------------------------------------------------------------
-    // Wolrd Time Update
+    // ** Wolrd Time Update **
     void WorldTimeUpdate() {
         // Time
         worldClock += Time.deltaTime;
+        // One Day
         if(worldClock >= oneDayTime) {
+            // Update Alien
+            PlayerStats.DailyUpdate();
+            // Incrioment Days
             worldDays++;
             // + One Year
             if(worldDays > 365) {
@@ -257,6 +124,59 @@ public class BiomeController : MonoBehaviour {
             // String Update
             UIController.YearUpdate("Years: " + worldYears + " /  Days: " + worldDays);
         }
+    }
+
+    // Sky Colour
+    void SkyColor() {
+        float _playerAngle = PlayerControlls.worldAngleDeg;
+        bool _isSkyUpdate = false;
+        bool _isDayToNight = true;
+        float _normalized = 0f;
+        
+        // Shift To Night
+        if (_playerAngle > duskAngles[0] && _playerAngle < duskAngles[1]) {
+            _isSkyUpdate = true;
+            _normalized = (_playerAngle - duskAngles[0]) / dawnDuskRange;
+        }
+        else if((_playerAngle < 360 && _playerAngle > dawnAngles[0]) || (_playerAngle > 0 && _playerAngle < dawnAngles[1])) {
+            _isSkyUpdate = true;
+            _isDayToNight = false;
+            if(_playerAngle > dawnAngles[0]) {
+                _normalized = (_playerAngle - dawnAngles[0]) / (dawnDuskRange / 2f);
+            }
+            else {
+                _normalized = _playerAngle / (dawnDuskRange / 2f);
+            }
+        }
+
+        if (_isSkyUpdate) {
+            Color _skyCol = new Color();
+            // Day to Night
+            if (_isDayToNight) {
+                if (_normalized < 0.5f) {
+                    _normalized /= 0.5f;
+                    _skyCol = Color.Lerp(skyColors[(int)skyTypes.day], skyColors[(int)skyTypes.dawnDusk], _normalized);
+                }
+                else {
+                    _normalized -= 0.5f;
+                    _normalized /= 0.5f;
+                    _skyCol = Color.Lerp(skyColors[(int)skyTypes.dawnDusk], skyColors[(int)skyTypes.night], _normalized);
+                }
+            }
+            else {
+                if(_playerAngle > dawnAngles[0]) {
+                    _skyCol = Color.Lerp(skyColors[(int)skyTypes.night], skyColors[(int)skyTypes.dawnDusk], _normalized);
+                }
+                else {
+                    _skyCol = Color.Lerp(skyColors[(int)skyTypes.dawnDusk], skyColors[(int)skyTypes.day], _normalized);
+                }
+            }
+            // Colour Camera Background
+            Camera.main.GetComponent<Camera>().backgroundColor = _skyCol;
+            // Colour Star MAsk
+            starMaskSpr.color = _skyCol;
+        }
+
     }
 
     // Z Layer Layout - setts the position of each layer based on the number of creatures and vegitation.

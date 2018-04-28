@@ -23,7 +23,7 @@ public class PlayerControlls : MonoBehaviour {
     }
     float worldRadius;
     float distanceFromCore; // The players distance from the plantes core
-    float worldAngleDeg;
+    public static float worldAngleDeg;
     float orientationOffset = -90f;
     int currentZlayer = 1;
     bool canSwithcLayer = true;

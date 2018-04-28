@@ -23,6 +23,17 @@ public class UIController : MonoBehaviour {
     public Button[] powerButtons;
     public static int avaialbleSkills = 0;
 
+    [Space]
+    // Player Stats
+    [Header("Player Stats")]
+    public GameObject heartObj;
+    static Vector3 heartScale = new Vector3(1f, 1f, 1f);
+    public GameObject cubeRollMeatObj;
+    static float hungerMinScaleRange = 0.3f;
+    static float hungerRange;
+    static Vector3 hungerScale = new Vector3(1f, 1f, 1f);
+    public static bool statsUpdate = false;
+
     // Other
     public static bool powerPanel_isSwitchPos = false;
     public static bool arePowersAvailable = false;
@@ -32,6 +43,9 @@ public class UIController : MonoBehaviour {
     Vector3 powerPanel_CurrentPos;
 
     // MONOBEHAVIOUR --------------------------------------------------------------
+    private void Awake() {
+        hungerRange = 1f - hungerMinScaleRange;
+    }
     // Use this for initialization
     void Start () {
 		
@@ -45,7 +59,10 @@ public class UIController : MonoBehaviour {
         }
         // Hide show Powers
         HideShowPowerPanel();
-	}
+        // Health and Hunger
+        StatsRefresh();
+
+    }
 
     // METHODS --------------------------------------------------------------------
     // Date text Update
@@ -79,6 +96,25 @@ public class UIController : MonoBehaviour {
             }
             // Update Pos
             powerUpPanel.GetComponent<RectTransform>().anchoredPosition = powerPanel_CurrentPos;
+        }
+    }
+
+    // Updates UI Player stats 
+    public static void StatsUpdate(float _health, float _hunger) {
+        statsUpdate = true;
+        // Health
+        heartScale = new Vector3(_health, _health, _health) / 100f;
+        // hunger
+        _hunger /= 100f;
+        _hunger = hungerMinScaleRange + (_hunger * hungerRange);
+        hungerScale = new Vector3(_hunger, 1f, _hunger);
+    }
+
+    // Stats Refresh
+    void StatsRefresh() {
+        if (statsUpdate) {
+            heartObj.transform.localScale = heartScale;
+            cubeRollMeatObj.transform.localScale = hungerScale;
         }
     }
 

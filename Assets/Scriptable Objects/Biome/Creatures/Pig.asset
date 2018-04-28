@@ -8,10 +8,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 2ddc175c5731a4c458f1cbbfe804dc23, type: 3}
   m_Name: Pig
-  m_EditorClassIdentifier: Assembly-CSharp::CreatureSpecs
-  speciesName: Pig
+  m_EditorClassIdentifier: 
+  speciesName: pig
   modelPrefab: {fileID: 1076374623133548, guid: 5ac58603b0311784c96409c66e1c369c,
     type: 2}
   matreial: {fileID: 2100000, guid: b414f4a1559aee74cbe0bc5c3d1fafa4, type: 2}

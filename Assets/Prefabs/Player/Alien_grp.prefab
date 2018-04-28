@@ -605,7 +605,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxGrowSize: 5
-  growRate: 0.5
+  growRate: 0.1
 --- !u!137 &137120270900352946
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

@@ -10,7 +10,7 @@ public class CameraControl : MonoBehaviour {
     //public Vector3 rotationOffset;
 
 	// Update is called once per frame
-	void Update () {
+	void LateUpdate () {
         MoveWithTarget();
 	}
 

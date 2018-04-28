@@ -46,17 +46,16 @@ Camera - 25/5/15
 ####################################################
 
 Biome - 27/5/18
-* Sun rise and sun down
 - Full occupational Angle on world is now calculated based on the max size of the creature/ vegitation
 - World is now split in layers dependent on the amount of species inhabitting it.
 
 Alien update - 27/5/18
-* Limit What to eat
 * Decrease Hunger and Health
-* Implement powers
 - Player mow can swith layes in Z depth. (kept the layer switch controlls to "Vertical Raw Axis" so maybe it will be easier to cross platforms)
 - Reduced Alien Eat Trigger size.
 - On Start, alien is moved to a layer. By default (1).
+- Powers are now selectable: jump, double speed, omnivore
+- What to eat is limited until omnivore is active
 
 UI - 27/5/18
 - Powers slide-in from bottom after evolution.
@@ -64,3 +63,34 @@ UI - 27/5/18
 - Jump, speed, and omnivore icons created and assigned to their respective buttons.
 - Power Button is disabled and hides menu after selection
 - If more then one skill is aavailable, pannel does not go down before player selects them.
+
+####################################################
+
+Biome - 28/5/18
+- Sky changes colour based on the location of the player relative to the world.
+- Sky box created to influence envirnment reflaction
+- Stars particles cerated. Need tweeking in order to not be visible during day.
+- Moon Model cerated
+- Emission map created
+- Sun Created as sprite
+- Implimented star mask and changes colour with sky
+
+Alien update - 28/5/18
+* Replanish Health?
+- Health and hunger decrease each day
+- Hunger is limited from 0 to 100;
+
+UI - 28/5/18
+- Whent from non diegetic to full diegetic.
+- Model of a heart for health was created.
+- Model of a cube roll for hunger was cerated.
+- Beating heart animation
+- Heart scales with the percantage of health left.
+- Cube Roll sclaes with the amount of hunger. The bone stayes the same, just the meat diminishes
+- Capped the scale of the meat to be just visible when hunger is @ 0.
+
+Heads Up!! - 28/5/18
+- Extracted scriptable object class to its own file (originaly it was with the Biome class).
+  This created problems during build and Unity could not find the script.
+- Use LateUpdate() for Camera. Update(), was causing the camera to shake.
+  LateUpdate() runs after all the Updates where done.
