@@ -94,3 +94,19 @@ Heads Up!! - 28/5/18
   This created problems during build and Unity could not find the script.
 - Use LateUpdate() for Camera. Update(), was causing the camera to shake.
   LateUpdate() runs after all the Updates where done.
+
+####################################################
+
+Biome - 29/5/18
+- Added entry animation. Sky changes from space to daylight with whooshing particles.
+- Star mask rotates counter player.
+- Star particles are enabled at half day/night transition.
+
+Camera
+* Camera bounce at 90 and 0 angle
+
+UI
+* Year Text
+
+Alien
+* Replanish Health?

@@ -81,6 +81,7 @@ MonoBehaviour:
   vegitationSpecs:
   - {fileID: 11400000, guid: 1630fac65134914419d278f7b24cd25e, type: 2}
   - {fileID: 11400000, guid: 4fe1a996e9e408e46a5373cb747fc02f, type: 2}
+  starParticleSystem: {fileID: 0}
   starMaskRevolveObj: {fileID: 0}
   skyColors:
   - {r: 0.50735295, g: 0.77140576, b: 1, a: 1}

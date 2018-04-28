@@ -31,6 +31,7 @@ public class BiomeController : MonoBehaviour {
     [Space]
     // Day and Night
     [Header("Day and Night")]
+    public GameObject starParticleSystem;
     public GameObject starMaskRevolveObj;
     SpriteRenderer starMaskSpr;
     public Color[] skyColors;
@@ -38,6 +39,16 @@ public class BiomeController : MonoBehaviour {
     Vector2 dawnAngles = new Vector2();// Direction is towards vector angle, Clock wise is dawn.
     Vector2 duskAngles = new Vector2(); // Direction is towards vector angle, Anti-clockwise is duck.
     float dawnDuskRange; // the range between angles
+
+    [Space]
+    // Planetary Entry
+    [Header("Planetary Entry")]
+    public GameObject entryParticles;
+    float entryRange;
+    float entryBuffer = 2f;
+    bool isEntry = true;
+
+
 
     // MONOBEHAVIOUR --------------------------------------------------------------------
     private void Awake() {
@@ -71,7 +82,7 @@ public class BiomeController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-
+        
     }
 	
 	// Update is called once per frame
@@ -85,6 +96,7 @@ public class BiomeController : MonoBehaviour {
 
     // Late update so that player movement will be already avaluated
     private void LateUpdate() {
+        PlanetaryEntry();
         SkyColor();
     }
 
@@ -156,28 +168,55 @@ public class BiomeController : MonoBehaviour {
                 if (_normalized < 0.5f) {
                     _normalized /= 0.5f;
                     _skyCol = Color.Lerp(skyColors[(int)skyTypes.day], skyColors[(int)skyTypes.dawnDusk], _normalized);
+                    starParticleSystem.SetActive(false);
                 }
                 else {
                     _normalized -= 0.5f;
                     _normalized /= 0.5f;
                     _skyCol = Color.Lerp(skyColors[(int)skyTypes.dawnDusk], skyColors[(int)skyTypes.night], _normalized);
+                    starParticleSystem.SetActive(true);
                 }
             }
             else {
                 if(_playerAngle > dawnAngles[0]) {
                     _skyCol = Color.Lerp(skyColors[(int)skyTypes.night], skyColors[(int)skyTypes.dawnDusk], _normalized);
+                    starParticleSystem.SetActive(true);
                 }
                 else {
                     _skyCol = Color.Lerp(skyColors[(int)skyTypes.dawnDusk], skyColors[(int)skyTypes.day], _normalized);
+                    starParticleSystem.SetActive(false);
                 }
             }
             // Colour Camera Background
             Camera.main.GetComponent<Camera>().backgroundColor = _skyCol;
             // Colour Star MAsk
             starMaskSpr.color = _skyCol;
+            // Rotate counter player
+            starMaskRevolveObj.transform.localEulerAngles = new Vector3(0f, 0f, -_playerAngle + 90f);
         }
+        
 
     }
+
+    // Alien Planetary Entry
+    void PlanetaryEntry() {
+        if (!isEntry) {
+            return;
+        }
+        // Set Entry Range
+        if(entryBuffer == 2f) {
+            entryBuffer += worldRadius;
+            entryRange = PlayerControlls.playerPos[1] - entryBuffer;
+            entryParticles.SetActive(true);
+        }
+        float _normalized = ((PlayerControlls.playerPos[1] - entryBuffer) / entryRange);
+        Camera.main.GetComponent<Camera>().backgroundColor = Color.Lerp(skyColors[(int)skyTypes.day], skyColors[(int)skyTypes.night], _normalized);
+        if(_normalized <= 0) {
+            isEntry = false;
+            entryParticles.SetActive(false);
+        }
+    }
+
 
     // Z Layer Layout - setts the position of each layer based on the number of creatures and vegitation.
     void ZlayerLayout() {

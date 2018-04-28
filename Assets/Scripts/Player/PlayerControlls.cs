@@ -31,6 +31,7 @@ public class PlayerControlls : MonoBehaviour {
     PlayerStats playerStats;
     Animator animator;
     public static bool isOmnivore = false;
+    public static Vector3 playerPos;
 
     private void Awake() {
         playerRigidBody = GetComponent<Rigidbody>();
@@ -39,6 +40,8 @@ public class PlayerControlls : MonoBehaviour {
         worldRadius = world.GetComponent<Renderer>().bounds.size[0] / 2f;
         playerStats = GetComponent<PlayerStats>();
         playerStats.EvolutionIncrimentUpdate();
+        // Hide cursor
+        Cursor.visible = false;
     }
 
     private void Start() {
@@ -62,6 +65,7 @@ public class PlayerControlls : MonoBehaviour {
             playerRigidBody.AddForce(jumpDir);
             isJump = false;
         }
+        playerPos = transform.position;
     }
 
     // METHODS --------------------------------------------------------------------------------------------------
