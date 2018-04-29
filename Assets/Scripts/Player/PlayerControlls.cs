@@ -181,8 +181,7 @@ public class PlayerControlls : MonoBehaviour {
         }
         CreaturesBase creatureBase = other.gameObject.GetComponent<CreaturesBase>();
         // Take damage on entry
-        if (creatureBase.size > playerStats.growSize && (creatureBase.type.Equals("carnivore") || animator.GetBool("BiteAnim"))) {
-            Debug.Log("Damage Taken: " + creatureBase.hitPoints);
+        if (creatureBase.size > playerStats.GetSize() && (creatureBase.type.Equals("carnivore") || animator.GetBool("BiteAnim"))) {
             playerStats.GetDamage(creatureBase.hitPoints);
         }
     }
@@ -192,7 +191,7 @@ public class PlayerControlls : MonoBehaviour {
             return;
         }
         CreaturesBase creatureBase = other.gameObject.GetComponent<CreaturesBase>();
-        if (animator.GetBool("BiteAnim") && ((other.gameObject.tag.Equals("Creature") && (playerStats.growSize + playerStats.eatingUpperEdge >= creatureBase.size)) || (isOmnivore && other.gameObject.tag.Equals("Vegitation")))) {
+        if (animator.GetBool("BiteAnim") && ((other.gameObject.tag.Equals("Creature") && (playerStats.GetSize() + playerStats.eatingUpperEdge >= creatureBase.size)) || (isOmnivore && other.gameObject.tag.Equals("Vegitation")))) {
             if (creatureBase.isAlive) {
                 playerStats.Grow(creatureBase.Harvest());
                 creatureBase.Die();

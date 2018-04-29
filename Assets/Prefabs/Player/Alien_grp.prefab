@@ -604,8 +604,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81e4dba167bded44999a670943e3cdd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  growSize: 1
+  eatingUpperEdge: 0.1
   maxGrowSize: 5
   growRate: 0.1
+  damageColor: {r: 0.71323526, g: 0, b: 0, a: 1}
+  glowingTimes: 3
+  glowDuration: 0.2
+  alienMat: {fileID: 2100000, guid: efafac48d50e19440a95726baebe209c, type: 2}
 --- !u!137 &137120270900352946
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -620,7 +626,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: b414f4a1559aee74cbe0bc5c3d1fafa4, type: 2}
+  - {fileID: 2100000, guid: efafac48d50e19440a95726baebe209c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

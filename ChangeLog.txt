@@ -1,4 +1,4 @@
-Biome - 19/5/18
+Biome - 19/4/18
 - Created Pig and Cat model
 - Created Pig and Cat skeleton model
 - Created world and sky plane.
@@ -8,7 +8,7 @@ Biome - 19/5/18
 
 ####################################################
 
-Environment Update - 24/5/18
+Environment Update - 24/4/18
 - Species: Vegitation / creatures are now scriptable objects.
 - Changed Tree models
 - Added 3 different Tree models that will be randomly picked while building the planet
@@ -17,7 +17,7 @@ Environment Update - 24/5/18
 - Random Tree rotation
 - Replaced Planet Mesh colider with Capsule coliser
 
-Vegitation Age - 24/5/18
+Vegitation Age - 24/4/18
 - Vegitation Ages
 - New method in CreatureBase: Conditions Setup
 - Trees age now set to 1000 from condition setup method
@@ -26,7 +26,7 @@ Vegitation Age - 24/5/18
 
 ####################################################
 
-Alien - 25/5/18
+Alien - 25/4/18
 - Alien Model Created.
 - Alien Idle and Bite animantion created.
 - Organised Alien Hierarchy.
@@ -40,23 +40,23 @@ Alien - 25/5/18
 - Deactivated collider after tree is eaten to allow player to move through it.
 - Alien Scale now has a max size
 
-Camera - 25/5/15
+Camera - 25/4/15
 - Implimented Camera Follow. A group rotates around the planet while the camera goes up and down the local y axis.
 
 ####################################################
 
-Biome - 27/5/18
+Biome - 27/4/18
 - Full occupational Angle on world is now calculated based on the max size of the creature/ vegitation
 - World is now split in layers dependent on the amount of species inhabitting it.
 
-Alien update - 27/5/18
+Alien update - 27/4/18
 - Player mow can swith layes in Z depth. (kept the layer switch controlls to "Vertical Raw Axis" so maybe it will be easier to cross platforms)
 - Reduced Alien Eat Trigger size.
 - On Start, alien is moved to a layer. By default (1).
 - Powers are now selectable: jump, double speed, omnivore
 - What to eat is limited until omnivore is active
 
-UI - 27/5/18
+UI - 27/4/18
 - Powers slide-in from bottom after evolution.
 - Date Log is now visible
 - Jump, speed, and omnivore icons created and assigned to their respective buttons.
@@ -65,7 +65,7 @@ UI - 27/5/18
 
 ####################################################
 
-Biome - 28/5/18
+Biome - 28/4/18
 - Sky changes colour based on the location of the player relative to the world.
 - Sky box created to influence envirnment reflaction
 - Stars particles cerated. Need tweeking in order to not be visible during day.
@@ -74,12 +74,12 @@ Biome - 28/5/18
 - Sun Created as sprite
 - Implimented star mask and changes colour with sky
 
-Alien update - 28/5/18
+Alien update - 28/4/18
 * Replanish Health?
 - Health and hunger decrease each day
 - Hunger is limited from 0 to 100;
 
-UI - 28/5/18
+UI - 28/4/18
 - Whent from non diegetic to full diegetic.
 - Model of a heart for health was created.
 - Model of a cube roll for hunger was cerated.
@@ -88,7 +88,7 @@ UI - 28/5/18
 - Cube Roll sclaes with the amount of hunger. The bone stayes the same, just the meat diminishes
 - Capped the scale of the meat to be just visible when hunger is @ 0.
 
-Heads Up!! - 28/5/18
+Heads Up!! - 28/4/18
 - Extracted scriptable object class to its own file (originaly it was with the Biome class).
   This created problems during build and Unity could not find the script.
 - Use LateUpdate() for Camera. Update(), was causing the camera to shake.
@@ -96,26 +96,33 @@ Heads Up!! - 28/5/18
 
 ####################################################
 
-Biome - 29/5/18
+Biome - 29/4/18
 - Added entry animation. Sky changes from space to daylight with whooshing particles.
 - Star mask rotates counter player.
 - Star particles are enabled at half day/night transition.
+**
+- Ground gets darker or lighter based on the biome initial population.
 
-UI - 29/5/18
+UI - 29/4/18
 - Cursor is now visible when power ups are available and invisible when hidden.
+**
+- Evolution progress bar added
 
-Alien - 29/5/18
+Alien - 29/4/18
 - Replanish health if eating while hunger is full
-- Cannot eat learger creatures (based on scale not on age).
+- Cannot eat larger creatures (based on scale not on age).
 - Plants can always be eaten no matter the size.
-- If you try to eat larger creatures you get damage. Even if you have the upper edge you still getr damage.
+- If you try to eat larger creatures you get damage. Even if you have the upper edge you still get damage.
 - Controlls are locked at planetary entry and after death.
+**
+- Alien glows on damage taken
 
 Biome
 * Fine tune date and stats
 
 UI
 * Year Text graphics
+* Adjust 3D icons scale and position to different screen sizes
 
 Camera
 * Camera bounce at 90 and 0 angle
@@ -123,3 +130,6 @@ Camera
 Alien
 * Rigid body add force not fps dependant
 * take damge if bite after entering trigger.
+* Health bug, stoppes to increase after some time.
+* When you become an omnivoure, it becomes a rampage.
+* Implement evolution meter.

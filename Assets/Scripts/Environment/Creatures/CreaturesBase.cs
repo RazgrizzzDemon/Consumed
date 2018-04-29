@@ -102,6 +102,7 @@ public class CreaturesBase: CreatureWorldPositioning {
         isAlive = false;
         // Spawn skeleton
         SkeletonMeshUpdate();
+        BiomeController.HealthUpdate(false);
     }
 
     // Skeleton Mesh setup, Setup Meshes

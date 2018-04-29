@@ -74,6 +74,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86637cd7ff12b6143866c88347454696, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  biomeMat: {fileID: 2100000, guid: 559d83a2961ce0f44bd622c4beae2686, type: 2}
   world: {fileID: 0}
   creatureSpecs:
   - {fileID: 11400000, guid: 620ae5d5f6e96fd41907a8a6452001fa, type: 2}
@@ -88,3 +89,4 @@ MonoBehaviour:
   - {r: 0.97794116, g: 0.5726914, b: 0.27324829, a: 1}
   - {r: 0.015895322, g: 0.020511763, b: 0.04411763, a: 1}
   dawnDuskAngle: 30
+  entryParticles: {fileID: 0}

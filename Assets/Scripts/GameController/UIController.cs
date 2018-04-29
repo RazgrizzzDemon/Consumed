@@ -34,7 +34,18 @@ public class UIController : MonoBehaviour {
     static Vector3 hungerScale = new Vector3(1f, 1f, 1f);
     public static bool statsUpdate = false;
 
+    [Space]
+    // Evolution Bar
+    [Header("Evolution Bar")]
+    public GameObject evolutionBar;
+    Vector2 barMaxSizeDelta = new Vector2();
+    float currentBarWidth = 0f;
+    float alienMaxScale;
+    float alienScaleRange;
+
+    [Space]
     // Other
+    [Header ("Other")]
     public static bool powerPanel_isSwitchPos = false;
     public static bool arePowersAvailable = false;
     public float powerPanel_Speed;
@@ -45,6 +56,9 @@ public class UIController : MonoBehaviour {
     // MONOBEHAVIOUR --------------------------------------------------------------
     private void Awake() {
         hungerRange = 1f - hungerMinScaleRange;
+        barMaxSizeDelta = evolutionBar.GetComponent<RectTransform>().sizeDelta;
+        alienMaxScale = PlayerStats.maxGrowSize;
+        alienScaleRange = alienMaxScale - PlayerStats.growSize;
     }
     // Use this for initialization
     void Start () {
@@ -61,7 +75,11 @@ public class UIController : MonoBehaviour {
         HideShowPowerPanel();
         // Health and Hunger
         StatsRefresh();
+    }
 
+    // draw Evolution Bar
+    private void LateUpdate() {
+        EvolutionBarUpdate();
     }
 
     // METHODS --------------------------------------------------------------------
@@ -118,6 +136,12 @@ public class UIController : MonoBehaviour {
             heartObj.transform.localScale = heartScale;
             cubeRollMeatObj.transform.localScale = hungerScale;
         }
+    }
+
+    // Update Evolution Bar
+    void EvolutionBarUpdate() {
+        currentBarWidth = ((PlayerStats.growSize - 1f) / alienScaleRange) * barMaxSizeDelta[0];
+        evolutionBar.GetComponent<RectTransform>().sizeDelta = new Vector2(currentBarWidth, barMaxSizeDelta[1]);
     }
 
     // BUTTONS ------------------------------------------------------------------------

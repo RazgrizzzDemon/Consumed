@@ -8,6 +8,15 @@ public class BiomeController : MonoBehaviour {
 
     enum skyTypes { day, dawnDusk, night}
 
+    // Biome Health
+    [Header("Biome Helath")]
+    public Material biomeMat;
+    static Color[] biomeHealthCol = new Color[2] { new Color(1f,1f,1f,1f), new Color(0.1f, 0.04f, 0f, 1f) };
+    static float biomeHealth = 100;
+    static int totalBiomeSpecies = 0;
+    static bool biomeHealthUpdate = true;
+
+
     // World
     [Header("World")]
     public GameObject world;
@@ -98,6 +107,7 @@ public class BiomeController : MonoBehaviour {
     private void LateUpdate() {
         PlanetaryEntry();
         SkyColor();
+        GroundMatUpdate();
     }
 
     private void FixedUpdate() {
@@ -246,6 +256,32 @@ public class BiomeController : MonoBehaviour {
         }
     }
 
+    // Biome Health Update
+    public static void HealthUpdate(bool _isPositive = true, bool _onAwake = false) {
+        if (_onAwake && _isPositive) {
+            totalBiomeSpecies++;
+            return;
+        }
+        // Creatures birth
+        else if (_isPositive) {
+            biomeHealth += ((1f / totalBiomeSpecies) * 100f);
+        }
+        // Creatures Death
+        else {
+            biomeHealth -= ((1f / totalBiomeSpecies) * 100f);
+        }
+        biomeHealthUpdate = true;
+    }
+
+    // Material Update
+    void GroundMatUpdate() {
+        if (!biomeHealthUpdate) {
+            return;
+        }
+        biomeMat.color = Color.Lerp(biomeHealthCol[1], biomeHealthCol[0], (biomeHealth / 100));
+        biomeHealthUpdate = false;
+    }
+
 // LIFE FORMS -------------------------------------------------------------------------------------------
 // Nest Distributor
 void NestDistributor(int _type) {
@@ -269,6 +305,7 @@ void NestDistributor(int _type) {
                     _nextPos -= (_speciesSize + (_speciesSize / 2f));
                 }
                 creatureSpecs[_type].InitSpawn(j, _nextPos, _NestSize);
+                HealthUpdate(true, true);
             }
         }
     }
@@ -306,6 +343,7 @@ void NestDistributor(int _type) {
                 }
                 vegitationSpecs[_type].Active(j, true);
                 vegitationSpecs[_type].InitSpawn(j, _nextPos);
+                HealthUpdate(true, true);
             }
         }
     }
