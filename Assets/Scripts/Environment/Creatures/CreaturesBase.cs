@@ -23,6 +23,9 @@ public class CreaturesBase: CreatureWorldPositioning {
     float health = 100f;
     float hunger = 100f;
 
+    // Attack
+    public float hitPoints = 0f;
+
     // CONDITIONS -------------------------------------------------------
     // Custimise creature conditions
     public void ConditionsSetUp(int _maxAge, float _maxSize = 2f, float _minSize = 0.5f) {
@@ -33,6 +36,7 @@ public class CreaturesBase: CreatureWorldPositioning {
     // INITIALIZE --------------------------------------------------------
     // Species type and behavior - on Awake is used when game is started to have rendom ages
     public void InitializeSpecies(string _type, bool onAwake = false) {
+        type = _type;
         // Live
         isAlive = true;
         SkeletonMeshUpdate();

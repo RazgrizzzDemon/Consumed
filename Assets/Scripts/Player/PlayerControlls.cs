@@ -32,6 +32,7 @@ public class PlayerControlls : MonoBehaviour {
     Animator animator;
     public static bool isOmnivore = false;
     public static Vector3 playerPos;
+    public static bool controlLock = true;
 
     private void Awake() {
         playerRigidBody = GetComponent<Rigidbody>();
@@ -70,6 +71,9 @@ public class PlayerControlls : MonoBehaviour {
 
     // METHODS --------------------------------------------------------------------------------------------------
     void ControlPlayer() {
+        if (controlLock) {
+            return;
+        }
         LayerSwitch();
         // Move
         moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, 0);
@@ -171,9 +175,24 @@ public class PlayerControlls : MonoBehaviour {
     }
 
     // TRIGGERS ----------------------------------------------------------
+    private void OnTriggerEnter(Collider other) {
+        if (!other.gameObject.tag.Equals("Creature")) {
+            return;
+        }
+        CreaturesBase creatureBase = other.gameObject.GetComponent<CreaturesBase>();
+        // Take damage on entry
+        if (creatureBase.size > playerStats.growSize && (creatureBase.type.Equals("carnivore") || animator.GetBool("BiteAnim"))) {
+            Debug.Log("Damage Taken: " + creatureBase.hitPoints);
+            playerStats.GetDamage(creatureBase.hitPoints);
+        }
+    }
+
     private void OnTriggerStay(Collider other) {
-        if (animator.GetBool("BiteAnim") && (other.gameObject.tag.Equals("Creature") || (isOmnivore && other.gameObject.tag.Equals("Vegitation")))) {
-            CreaturesBase creatureBase = other.gameObject.GetComponent<CreaturesBase>();
+        if (!other.gameObject.GetComponent<CreaturesBase>()) {
+            return;
+        }
+        CreaturesBase creatureBase = other.gameObject.GetComponent<CreaturesBase>();
+        if (animator.GetBool("BiteAnim") && ((other.gameObject.tag.Equals("Creature") && (playerStats.growSize + playerStats.eatingUpperEdge >= creatureBase.size)) || (isOmnivore && other.gameObject.tag.Equals("Vegitation")))) {
             if (creatureBase.isAlive) {
                 playerStats.Grow(creatureBase.Harvest());
                 creatureBase.Die();

@@ -50,7 +50,6 @@ Biome - 27/5/18
 - World is now split in layers dependent on the amount of species inhabitting it.
 
 Alien update - 27/5/18
-* Decrease Hunger and Health
 - Player mow can swith layes in Z depth. (kept the layer switch controlls to "Vertical Raw Axis" so maybe it will be easier to cross platforms)
 - Reduced Alien Eat Trigger size.
 - On Start, alien is moved to a layer. By default (1).
@@ -102,11 +101,25 @@ Biome - 29/5/18
 - Star mask rotates counter player.
 - Star particles are enabled at half day/night transition.
 
+UI - 29/5/18
+- Cursor is now visible when power ups are available and invisible when hidden.
+
+Alien - 29/5/18
+- Replanish health if eating while hunger is full
+- Cannot eat learger creatures (based on scale not on age).
+- Plants can always be eaten no matter the size.
+- If you try to eat larger creatures you get damage. Even if you have the upper edge you still getr damage.
+- Controlls are locked at planetary entry and after death.
+
+Biome
+* Fine tune date and stats
+
+UI
+* Year Text graphics
+
 Camera
 * Camera bounce at 90 and 0 angle
 
-UI
-* Year Text
-
 Alien
-* Replanish Health?
+* Rigid body add force not fps dependant
+* take damge if bite after entering trigger.

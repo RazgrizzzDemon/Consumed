@@ -82,6 +82,7 @@ public class UIController : MonoBehaviour {
                     powerPanel_CurrentPos[1] = powerPanel_HiddenPos;
                     arePowersAvailable = false;
                     powerPanel_isSwitchPos = false;
+                    Cursor.visible = false;
                 }
             }
             // Show Powers
@@ -92,6 +93,7 @@ public class UIController : MonoBehaviour {
                     powerPanel_CurrentPos[1] = powerPanel_AvailablePos;
                     arePowersAvailable = true;
                     powerPanel_isSwitchPos = false;
+                    Cursor.visible = true;
                 }
             }
             // Update Pos

@@ -214,6 +214,7 @@ public class BiomeController : MonoBehaviour {
         if(_normalized <= 0) {
             isEntry = false;
             entryParticles.SetActive(false);
+            PlayerControlls.controlLock = false; // unlock controls
         }
     }
 

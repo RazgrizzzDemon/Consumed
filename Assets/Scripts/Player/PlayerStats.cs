@@ -5,7 +5,8 @@ using UnityEngine;
 public class PlayerStats: MonoBehaviour {
 
     // Physical
-    float growSize = 1f;
+    public float growSize = 1f; // equivalent to age
+    public float eatingUpperEdge = 0.1f; // Allows you to eat slightly larger ceratures
     public  float maxGrowSize;
     public  float growRate;
     int evolutionStage = 0;
@@ -73,31 +74,49 @@ public class PlayerStats: MonoBehaviour {
         }
         // Feed
         else if(_foodIntake > 0) {
+            // Replanish hunger
             hunger += ((hungerRate * feedingMultiplier) * _foodIntake);
+            // Limnit hunger to 100
             if (hunger > 100f) {
                 hunger = 100f;
+                // Replanish life
+                if(health < 100f) {
+                    HealthUpdate(0, ((hungerRate * feedingMultiplier) * _foodIntake));
+                }
             }
         }
     }
 
+    // Get Damage
+    public void GetDamage(float _dmg) {
+        HealthUpdate(_dmg);
+    }
+
     // Health Update - by hunger or attacks
-    static void HealthUpdate() {
+    static void HealthUpdate(float _dmg = 0, float _foodIntake = 0) {
         // Hunger
         if(hunger == 0) {
             health -= starvationDmg;
         }
         // Attack Dmg
-
+        if(_dmg > 0) {
+            health -= _dmg;
+        }
+        // health Replanish
+        if(_foodIntake > 0) {
+            health += _foodIntake;
+            if (health > 100f) {
+                health = 100f;
+            }
+        }
         // Limit Health
         if(health < 0) {
             health = 0;
         }
-        else if(health > 100f) {
-            health = 100f;
-        }
         // Check if player is dead
         if(health <= 0) {
             Debug.Log("Dead - Game Over");
+            PlayerControlls.controlLock = true;
         }
     }
 

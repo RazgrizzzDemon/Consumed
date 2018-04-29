@@ -13,6 +13,7 @@ public class CreatureSpecs : ScriptableObject {
     public int nestsNum;
     public float maxSpeed;
     public float maxJumpForce;
+    public float hitPoints;
     public int zLayerNumber; // 0 is the furthest away
     [HideInInspector]
     public float worldZdepth;
@@ -40,6 +41,8 @@ public class CreatureSpecs : ScriptableObject {
             species[i].GetComponent<CreaturesBase>().indexId = i;
             // Move Setup
             species[i].GetComponent<CreaturesBase>().MoveSetup(maxSpeed, maxJumpForce);
+            // Hit points
+            species[i].GetComponent<CreaturesBase>().hitPoints = hitPoints;
             // Set World Radius
             species[i].GetComponent<CreaturesBase>().WorldRadius = _worldRadius;
             // Setup skeleton
