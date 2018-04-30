@@ -12,6 +12,7 @@ public class VegitationSpecs : ScriptableObject {
     public int plantationsNum;
     public int maxAge;
     public int zLayerNumber; // 0 is the furthest away
+    public float angleOffset; // offset the world angle '0'
     [HideInInspector]
     public float worldZdepth;
     public Mesh[] deadVegMesh;

@@ -316,10 +316,12 @@
     <Compile Include="Assets\Scripts\Environment\World\WorldGravAttraction.cs" />
     <Compile Include="Assets\Scripts\GameController\BiomeController.cs" />
     <Compile Include="Assets\Scripts\GameController\CameraControl.cs" />
+    <Compile Include="Assets\Scripts\GameController\MainMenuController.cs" />
     <Compile Include="Assets\Scripts\GameController\UIController.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerControlls.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerStats.cs" />
     <Compile Include="Assets\Scripts\Player\worldGravityBody.cs" />
+    <Compile Include="Assets\Scripts\UI\ActionButton.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

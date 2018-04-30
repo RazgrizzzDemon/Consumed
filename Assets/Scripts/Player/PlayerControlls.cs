@@ -61,9 +61,9 @@ public class PlayerControlls : MonoBehaviour {
     }
 
     private void FixedUpdate() {
-        playerRigidBody.MovePosition(playerRigidBody.position + transform.TransformDirection(moveDir) * moveSpeed * Time.deltaTime);
+        playerRigidBody.MovePosition(playerRigidBody.position + transform.TransformDirection(moveDir) * moveSpeed * Time.fixedDeltaTime);
         if (isJump) {
-            playerRigidBody.AddForce(jumpDir);
+            playerRigidBody.AddForce(jumpDir, ForceMode.Impulse);
             isJump = false;
         }
         playerPos = transform.position;

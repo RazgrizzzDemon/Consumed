@@ -210,7 +210,7 @@ public class BiomeController : MonoBehaviour {
 
     // Alien Planetary Entry
     void PlanetaryEntry() {
-        if (!isEntry) {
+        if (!isEntry || PlayerControlls.playerPos[1] == 0) {
             return;
         }
         // Set Entry Range
@@ -218,13 +218,19 @@ public class BiomeController : MonoBehaviour {
             entryBuffer += worldRadius;
             entryRange = PlayerControlls.playerPos[1] - entryBuffer;
             entryParticles.SetActive(true);
+            //Debug.Log("Entry Start");
         }
+        //Debug.Log("Player Pos: " + PlayerControlls.playerPos[1]);
+        //Debug.Log("Entry Buffer: " + entryBuffer);
+        //Debug.Log("Entry range: " + entryRange);
+        //Debug.Log("---------------------------------");
         float _normalized = ((PlayerControlls.playerPos[1] - entryBuffer) / entryRange);
         Camera.main.GetComponent<Camera>().backgroundColor = Color.Lerp(skyColors[(int)skyTypes.day], skyColors[(int)skyTypes.night], _normalized);
         if(_normalized <= 0) {
             isEntry = false;
             entryParticles.SetActive(false);
             PlayerControlls.controlLock = false; // unlock controls
+            //Debug.Log("Entry Stop");
         }
     }
 
@@ -282,9 +288,9 @@ public class BiomeController : MonoBehaviour {
         biomeHealthUpdate = false;
     }
 
-// LIFE FORMS -------------------------------------------------------------------------------------------
-// Nest Distributor
-void NestDistributor(int _type) {
+    // LIFE FORMS -------------------------------------------------------------------------------------------
+    // Nest Distributor
+    void NestDistributor(int _type) {
         float _speciesSize = creatureSpecs[_type].species[0].GetComponent<CreaturesBase>().fullOccupationAngle;
         float _NestSize =  _speciesSize * creatureSpecs[_type].startHerdLimit;
         float[] _NestsPos = new float[creatureSpecs[_type].nestsNum];
@@ -330,7 +336,7 @@ void NestDistributor(int _type) {
         int j = 0;
         for (int i = 0; i < _NestsPos.Length; i++) {
             // Set nest Angle
-            _NestsPos[i] = _NestAngle * (i + 1);
+            _NestsPos[i] = (_NestAngle * (i + 1)) + vegitationSpecs[_type].angleOffset;
             // Instantiate and position
             for (; j < vegitationSpecs[_type].startPlantationLimit * (i + 1); j++) {
                 // Check if first on Nest

@@ -75,7 +75,6 @@ Biome - 28/4/18
 - Implimented star mask and changes colour with sky
 
 Alien update - 28/4/18
-* Replanish Health?
 - Health and hunger decrease each day
 - Hunger is limited from 0 to 100;
 
@@ -100,12 +99,10 @@ Biome - 29/4/18
 - Added entry animation. Sky changes from space to daylight with whooshing particles.
 - Star mask rotates counter player.
 - Star particles are enabled at half day/night transition.
-**
 - Ground gets darker or lighter based on the biome initial population.
 
 UI - 29/4/18
 - Cursor is now visible when power ups are available and invisible when hidden.
-**
 - Evolution progress bar added
 
 Alien - 29/4/18
@@ -114,13 +111,43 @@ Alien - 29/4/18
 - Plants can always be eaten no matter the size.
 - If you try to eat larger creatures you get damage. Even if you have the upper edge you still get damage.
 - Controlls are locked at planetary entry and after death.
-**
 - Alien glows on damage taken
+- Bug Fix: Equal evolution grow separation.
+- Bug Fix: After Constant Evolution separation, last skill would not show up.
+  Skill now also is active when grow size is >= max grow size.
 
+####################################################
+
+Biome - 30/4/18
+- Grass Models
+- Dead Grass Models
+- Nurfed vegitation nutrition. Grass: devided by 10. Trees: devided by 5.
+- Reduced amount of spawned grass by half. Count is now 400 in total.
+- Grass no longer has a colider. Only trigger.
+- Vegitation now has angle ofset to spread slightl differnet from another vegitation layer
+- Increeased Gravity to -20 from -9.81.
+- Planetary entry fixed. Player postition in build was not returning on the first update.
+  Therefore I am waitting until player position Y is no longer 0.
+
+Alien - 30/4/18
+- Jump is no longer fps dependant. Set gravity attraction on fixed update. (thgis also effects ceratures jumping)
+- Jump Forces where re adjusted.
+
+Main Menu - 30/4/18
+- Created a book Model.
+- Created opening and closing animations.
+- Scripted a small aniation for the introduction to open book and display buttons
+
+_____________________________________________________________________
+TO DO
+------
 Biome
 * Fine tune date and stats
+* Tree collisder must be reduced to trunk only.
 
 UI
+* Main Menu
+* Controls / Instructions
 * Year Text graphics
 * Adjust 3D icons scale and position to different screen sizes
 
@@ -128,8 +155,6 @@ Camera
 * Camera bounce at 90 and 0 angle
 
 Alien
-* Rigid body add force not fps dependant
 * take damge if bite after entering trigger.
-* Health bug, stoppes to increase after some time.
-* When you become an omnivoure, it becomes a rampage.
-* Implement evolution meter.
+* Health bug, stops to increase after some time.
+* Death Animation.

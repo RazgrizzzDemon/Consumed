@@ -94,7 +94,14 @@ public class CreaturesBase: CreatureWorldPositioning {
     // 1 is tha maximum mount of food that can be given
     // the older the more food it will give
     public float Harvest() {
-        return (float)age / maxAge;
+        float _nutrition = (float)age / maxAge;
+        if (type.Equals("grass")) {
+            _nutrition /= 10f;
+        }
+        else if (type.Equals("trees")) {
+            _nutrition /= 5f;
+        }
+        return _nutrition;
     }
 
     // Die
@@ -421,11 +428,11 @@ public class CreatureWorldPositioning: MonoBehaviour {
             if(currentDirection < 0) {
                 jumpDir *= -1;
             }
-            creatureRigid.AddForce(jumpDir);
+            creatureRigid.AddForce(jumpDir, ForceMode.Impulse);
             shouldHop = false;
         }
         // move
-        creatureRigid.MovePosition(creatureRigid.position + creatureTransform.TransformDirection(moveDir) * moveSpeed * Time.deltaTime);
+        creatureRigid.MovePosition(creatureRigid.position + creatureTransform.TransformDirection(moveDir) * moveSpeed * Time.fixedDeltaTime);
         // Calculate new Angle
         CalculateAngleToWorld();
     }

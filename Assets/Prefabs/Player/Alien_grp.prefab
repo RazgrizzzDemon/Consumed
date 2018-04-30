@@ -592,7 +592,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   world: {fileID: 0}
   moveSpeed: 10
-  jumpForce: 800
+  jumpForce: 10
 --- !u!114 &114466916981219418
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -604,9 +604,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81e4dba167bded44999a670943e3cdd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  growSize: 1
   eatingUpperEdge: 0.1
-  maxGrowSize: 5
   growRate: 0.1
   damageColor: {r: 0.71323526, g: 0, b: 0, a: 1}
   glowingTimes: 3

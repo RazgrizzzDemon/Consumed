@@ -21,7 +21,7 @@ public class worldGravityBody : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
         attractor.Attract(bodyTransforms, true);
 	}
 }

@@ -65,11 +65,6 @@ public class PlayerStats: MonoBehaviour {
             // Grow
             gameObject.transform.localScale = new Vector3(_growSize, _growSize, _growSize);
             // Check for evolution
-            print("GrowSize: " + _growSize);
-            print("Ev inc: " + evolutionIncriment);
-            print("Stage: " + evolutionStage);
-            print("Next@: " + (1 + (evolutionIncriment * (evolutionStage + 1))));
-            print("-----------------------------------");
             if(_growSize >= 1 + (evolutionIncriment * (evolutionStage + 1)) || _growSize >= maxGrowSize) {
                 // Evolve
                 Debug.Log("EVOLVE!!!");
