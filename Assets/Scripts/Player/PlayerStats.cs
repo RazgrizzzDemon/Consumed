@@ -154,8 +154,16 @@ public class PlayerStats: MonoBehaviour {
 
     // Health Update - by hunger or attacks
     static void HealthUpdate(float _dmg = 0, float _foodIntake = 0) {
+        // Check if player is dead
+        if (health <= 0) {
+            if (!PlayerControlls.controlLock) {
+                Debug.Log("Dead - Game Over");
+                PlayerControlls.controlLock = true;
+                BiomeController.StartRegrowt();
+            }
+        }
         // Hunger
-        if(hunger == 0) {
+        if (hunger == 0) {
             health -= starvationDmg;
         }
         // Attack Dmg
@@ -173,15 +181,15 @@ public class PlayerStats: MonoBehaviour {
         if(health < 0) {
             health = 0;
         }
-        // Check if player is dead
-        if(health <= 0) {
-            Debug.Log("Dead - Game Over");
-            PlayerControlls.controlLock = true;
-        }
+        
     }
 
     public float GetSize() {
         return growSize;
+    }
+
+    public static float GetHealth() {
+        return health;
     }
 
 }

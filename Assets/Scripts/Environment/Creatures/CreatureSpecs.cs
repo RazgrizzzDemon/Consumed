@@ -5,15 +5,17 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Creature", menuName = "Species/creatures", order = 1)]
 public class CreatureSpecs : ScriptableObject {
 
+    public string speciesType = "";
     public string speciesName = "";
     public GameObject modelPrefab;
     public Material matreial;
-    public int maxHerdLimit;
+    int totalCreatures;
     public int startHerdLimit;
     public int nestsNum;
     public float maxSpeed;
     public float maxJumpForce;
     public float hitPoints;
+    public int gestationDays;
     public int zLayerNumber; // 0 is the furthest away
     [HideInInspector]
     public float worldZdepth;
@@ -21,16 +23,16 @@ public class CreatureSpecs : ScriptableObject {
     public Mesh skeletonMesh;
     [HideInInspector]
     public GameObject[] species;
-    [HideInInspector]
-    public GameObject speicesContainer;
 
     // INITIALIZE ---------------------------------------------------------------
     public void Initialize(float _worldRadius, ref GameObject _attractor) {
-        species = new GameObject[maxHerdLimit];
-        speicesContainer = new GameObject(speciesName);
+        TotalCreatures(true);
+        species = new GameObject[totalCreatures];
+        // Name container
+        BiomeController.LifeContainers[BiomeController.currentLifeContainer] = new GameObject(speciesName);
         for (int i = 0; i < species.Length; i++) {
             // Instantiate
-            species[i] = MonoBehaviour.Instantiate(modelPrefab, speicesContainer.transform);
+            species[i] = MonoBehaviour.Instantiate(modelPrefab, BiomeController.LifeContainers[BiomeController.currentLifeContainer].transform);
             // Name
             species[i].name = speciesName + " " + i;
             // Add Script and Attractor - World
@@ -43,6 +45,8 @@ public class CreatureSpecs : ScriptableObject {
             species[i].GetComponent<CreaturesBase>().MoveSetup(maxSpeed, maxJumpForce);
             // Hit points
             species[i].GetComponent<CreaturesBase>().hitPoints = hitPoints;
+            // Gestation Days
+            species[i].GetComponent<CreaturesBase>().GestationDays(gestationDays);
             // Set World Radius
             species[i].GetComponent<CreaturesBase>().WorldRadius = _worldRadius;
             // Setup skeleton
@@ -50,8 +54,17 @@ public class CreatureSpecs : ScriptableObject {
             // Set Inactive
             species[i].GetComponent<CreaturesBase>().Terminate();
         }
+        BiomeController.currentLifeContainer++;
     }
     // METHODS ---------------------------------------------------------------
+    // Get total Amount of cretaures (All alive)
+    public int TotalCreatures(bool _SetUp = false) {
+        if (_SetUp) {
+            totalCreatures = startHerdLimit * nestsNum;
+        }
+        return totalCreatures;
+    }
+
     // Check if it is still Alive
     bool CheckIfAlive(int _index) {
         return species[_index].GetComponent<CreaturesBase>().isAlive;
@@ -64,8 +77,9 @@ public class CreatureSpecs : ScriptableObject {
         else {
             species[_index].GetComponent<CreaturesBase>().PositionInWorld(_angle, worldZdepth);
         }
-        species[_index].GetComponent<CreaturesBase>().InitializeSpecies(speciesName, true);
+        species[_index].GetComponent<CreaturesBase>().InitializeSpecies(speciesType, speciesName, false, false, true);
     }
+
     // Auto Move
     public void AutoMove() {
         for (int i = 0; i < species.Length; i++) {
@@ -82,12 +96,32 @@ public class CreatureSpecs : ScriptableObject {
             }
         }
     }
+
     // Age
     public void AgeUpdate() {
         for (int i = 0; i < species.Length; i++) {
             if (CheckIfAlive(i)) {
                 species[i].GetComponent<CreaturesBase>().AgeUpdate();
             }
+        }
+    }
+
+    // Daily Update
+    public void DailyUpdate() {
+        for (int i = 0; i < species.Length; i++) {
+            if (CheckIfAlive(i)) {
+                species[i].GetComponent<CreaturesBase>().DailyUpdate();
+            }
+        }
+    }
+
+    // Regenerate
+    public void Regenerate(string _name = "") {
+        if(_name.Equals("") || _name.Equals(speciesName)) {
+            species[0].GetComponent<CreaturesBase>().InitializeSpecies("", "", true, true);
+            species[1].GetComponent<CreaturesBase>().InitializeSpecies("", "", true, false);
+            BiomeController.HealthUpdate(true);
+            BiomeController.HealthUpdate(true);
         }
     }
 }

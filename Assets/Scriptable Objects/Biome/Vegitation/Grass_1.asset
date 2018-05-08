@@ -11,15 +11,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99f586aa79826fc4999cda1e4aa8bc23, type: 3}
   m_Name: Grass_1
   m_EditorClassIdentifier: 
-  speciesName: grass
+  speciesType: grass
+  speciesName: grass1
   modelPrefab:
   - {fileID: 1051202520044668, guid: 33e3f8fa9bf224f44a09a329edf8e22e, type: 2}
   - {fileID: 1341330226179278, guid: 0d7b5b356000f7444be9d0e050c0116c, type: 2}
   - {fileID: 1794598775012450, guid: e4c3fcb7b38bbf448a052b5660078c08, type: 2}
-  maxPlantationLimit: 150
+  totalPlants: 150
   startPlantationLimit: 10
   plantationsNum: 15
   maxAge: 100
+  gestationDays: 10
   zLayerNumber: 3
   angleOffset: 0
   worldZdepth: -4.870876
@@ -181,4 +183,3 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  speicesContainer: {fileID: 0}

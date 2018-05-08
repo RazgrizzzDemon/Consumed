@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class BiomeController : MonoBehaviour {
 
     enum skyTypes { day, dawnDusk, night}
+    enum timeMultiplierTypes { normal, fast, fastest}
 
     // Biome Health
     [Header("Biome Helath")]
@@ -22,7 +23,10 @@ public class BiomeController : MonoBehaviour {
     public GameObject world;
     Vector3 worldBounds;
     public static float worldRadius;
-    static float timeMultiplier = 1;
+    static float[] timeMultiplier = new float[3] { 1f, 10f, 5000f};
+    static int currentTimeMultiplier = 0;
+    static int regrowStage = 0;
+    static bool regrowStageUpdate = false;
     static float worldClock = 0f;
     static float oneDayTime = 1f;
     static int worldDays = 1;
@@ -41,6 +45,9 @@ public class BiomeController : MonoBehaviour {
     [Space]
     [Header("Flying Types")]
     public FlyingTypes[] flyingTypes;
+    public static GameObject[] LifeContainers; // Contains all life groups (ex: cats, pigs, grass, trees.. etc)
+    public static int currentLifeContainer = 0;
+    static int[] deathRate;
 
     [Space]
     // Day and Night
@@ -76,6 +83,13 @@ public class BiomeController : MonoBehaviour {
         worldRadius = (worldBounds[0] / 2f);
         // Z Depth Layer Setup
         ZlayerLayout();
+        // Count
+        int _numberOfSpecies = creatureSpecs.Length + vegitationSpecs.Length;
+        // Set container Array
+        LifeContainers = new GameObject[_numberOfSpecies];
+        // Set Date Rate Counter
+        deathRate = new int[_numberOfSpecies];
+        // Create
         // Create Species
         for (int i = 0; i < creatureSpecs.Length; i++) {
             creatureSpecs[i].Initialize(worldRadius, ref world);
@@ -123,7 +137,8 @@ public class BiomeController : MonoBehaviour {
     private void LateUpdate() {
         PlanetaryEntry();
         SkyColor();
-        GroundMatUpdate();
+        BiomeHealthUpdate();
+        Regrow();
     }
 
     private void FixedUpdate() {
@@ -141,11 +156,21 @@ public class BiomeController : MonoBehaviour {
             return;
         }
         // Time
-        worldClock += (Time.deltaTime * timeMultiplier);
+        worldClock = (worldClock + Time.deltaTime) * timeMultiplier[currentTimeMultiplier];
         // One Day
         if(worldClock >= oneDayTime) {
             // Update Alien
             PlayerStats.DailyUpdate();
+            // Creatures Daily Updates
+            for (int i = 0; i < creatureSpecs.Length; i++) {
+                creatureSpecs[i].DailyUpdate();
+            }
+            // Vegitation Daily Updates
+            for (int i = 0; i < vegitationSpecs.Length; i++) {
+                vegitationSpecs[i].DailyUpdate();
+            }
+            // Reproductioon
+            Reproduce();
             // Incrioment Days
             worldDays++;
             // + One Year
@@ -157,8 +182,18 @@ public class BiomeController : MonoBehaviour {
                     creatureSpecs[i].AgeUpdate();
                 }
                 // Vegitation Age
-                for (int i = 0; i < creatureSpecs.Length; i++) {
+                for (int i = 0; i < vegitationSpecs.Length; i++) {
                     vegitationSpecs[i].AgeUpdate();
+                }
+                // Regrowt
+                if(regrowStage > 0) {
+                    regrowStage++;
+                    if(regrowStage > 3) {
+                        regrowStage = 0;
+                    }
+                    else {
+                        regrowStageUpdate = true;
+                    }
                 }
             }
             // Reset Clock
@@ -302,16 +337,134 @@ public class BiomeController : MonoBehaviour {
         biomeHealthUpdate = true;
     }
 
+    // Death Rate - The amount of creatures died from a type
+    public static void DeathRate(string _name, bool _isPregnant) {
+        for (int i = 0; i < LifeContainers.Length; i++) {
+            if (LifeContainers[i].name.Equals(_name)) {
+                deathRate[i]++;
+                if (_isPregnant) {
+                    deathRate[i]++;
+                }
+            }
+        }
+    }
+
+    // Check for creatures to Reproduce
+    static void Reproduce() {
+        bool _haveMale = false;
+        bool _haveFemale = false;
+        int _femaleIndex = -1;
+        for (int i = 0; i < LifeContainers.Length; i++) {
+            if (deathRate[i] > 0) {
+                for (int j = 0; j < LifeContainers[i].gameObject.transform.childCount; j++) {
+                    // Exclusive Serch
+                    bool _exclusive = false;
+                    bool _forMale = false;
+                    if (_haveMale || _haveMale) {
+                        _exclusive = true;
+                        if (_haveFemale) {
+                            _forMale = true;
+                        }
+                    }
+                    // Search
+                    int _result = LifeContainers[i].gameObject.transform.GetChild(j).gameObject.GetComponent<CreaturesBase>().Reproduce(_exclusive, _forMale);
+                    // Not needed result
+                    if (_result == -1) {
+                        continue;
+                    }
+                    // Male
+                    else if (_result == (int)genderType.male) {
+                        _haveMale = true;
+                    }
+                    // Female
+                    else if (_result == (int)genderType.female) {
+                        _haveFemale = true;
+                        _femaleIndex = j;
+                    }
+                    // Got Male and Female
+                    if (_haveFemale && _haveMale) {
+                        LifeContainers[i].gameObject.transform.GetChild(_femaleIndex).gameObject.GetComponent<CreaturesBase>().Pregnant(true);
+                        deathRate[i]--;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    // Birth
+    public static void Birth(string _name) {
+        bool _isDone = false;
+        // Search for a dead one and revive
+        for (int i = 0; i < LifeContainers.Length; i++) {
+            if (LifeContainers[i].name.Equals(_name)) {
+                for (int j = 0; j < LifeContainers[i].gameObject.transform.childCount; j++) {
+                    // If it is Dead, Recycle
+                    if (!LifeContainers[i].gameObject.transform.GetChild(j).gameObject.GetComponent<CreaturesBase>().isAlive) {
+                        LifeContainers[i].gameObject.transform.GetChild(j).gameObject.GetComponent<CreaturesBase>().InitializeSpecies("", "");
+                        HealthUpdate(true);
+                        _isDone = true;
+                        break;
+                    }
+                }
+            }
+            if (_isDone) {
+                break;
+            }
+        }
+    }
+
     // Material Update
-    void GroundMatUpdate() {
+    void BiomeHealthUpdate() {
         if (!biomeHealthUpdate) {
             return;
         }
         biomeMat.color = Color.Lerp(biomeHealthCol[1], biomeHealthCol[0], (biomeHealth / 100));
         biomeHealthUpdate = false;
-        if(biomeHealth <= 0.9) {
-            timeMultiplier = 5;
+        if(currentTimeMultiplier == (int)timeMultiplierTypes.normal && biomeHealth <= 0.9) {
+            currentTimeMultiplier = (int)timeMultiplierTypes.fast;
         }
+    }
+
+    public static void StartRegrowt() {
+        if(biomeHealth > 0.9) {
+            return;
+        }
+        Debug.Log("Regrowt Started");
+        currentTimeMultiplier = (int)timeMultiplierTypes.fastest;
+        currentLifeContainer = 0;
+        regrowStage = 1;
+        regrowStageUpdate = true;
+    }
+
+    void Regrow() {
+        if(regrowStage == 0 || !regrowStageUpdate) {
+            return;
+        }
+        Debug.Log("Stage: " + regrowStage);
+        switch (regrowStage) {
+            // Stage one grow grass
+            case 1:
+                for (int i = 0; i < vegitationSpecs.Length; i++) {
+                    vegitationSpecs[i].Regenerate("grass");
+                }
+                break;
+            // Stage 2 grow trees
+            case 2:
+                for (int i = 0; i < vegitationSpecs.Length; i++) {
+                    vegitationSpecs[i].Regenerate("trees");
+                }
+                break;
+            // Stage 3 grow animals
+            case 3:
+                for (int i = 0; i < creatureSpecs.Length; i++) {
+                    creatureSpecs[i].Regenerate();
+                }
+                break;
+        }
+        regrowStageUpdate = false;
+        
+        
     }
 
     // LIFE FORMS -------------------------------------------------------------------------------------------
@@ -348,7 +501,7 @@ public class BiomeController : MonoBehaviour {
         float _NestSize;
         // Fill Planet
         if (vegitationSpecs[_type].startPlantationLimit == 0) {
-            vegitationSpecs[_type].startPlantationLimit = vegitationSpecs[_type].maxPlantationLimit;
+            vegitationSpecs[_type].startPlantationLimit = vegitationSpecs[_type].totalPlants;
             vegitationSpecs[_type].plantationsNum = 1;
             _NestSize = 360f;
         }

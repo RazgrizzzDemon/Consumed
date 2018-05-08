@@ -161,17 +161,27 @@ Biome - 8/5/18
 - Implimented Flying Scriptable Objects.
 - Created Cloud models.
 - Created Clouds.
+**
+- Creatures now reproduce if there is pace in the herd, if they have the right age, and if they find a partner.
+- Fixed bug of not growing vegitation
+- Biome regenerates after being dedtroyd ann alien dies.
+- Time gos fatser when biom is destroyed.
+- Time goes even fatser if biome is destroyed and alien is dead.
 
 Alien - 8/5/18
 - Reduced hunger rate by half, so that player is not rushing to eat to survive, but instead it will be his choice to eata lot.
 - Controls reset upone control lock.
+**
+- Die Animation
 
 Camera - 8/5/18
 - Fixed Camera Bounce. Now it is calculating the hypotenius of the target and applying it to the camrea Y translate.
+**
 
 Lighting - 8/5/18
 - Replaced sun disk with a Lens Flare
 - Day light lights now change intensity whil sky shift from day to night
+**
 _____________________________________________________________________
 TO DO
 ------

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum genderType { male, female};
+
 public class CreaturesBase: CreatureWorldPositioning {
 
     // Others
@@ -10,10 +12,14 @@ public class CreaturesBase: CreatureWorldPositioning {
 
     // Stats
     public int indexId;
-    public string type; // What kinf of creature is it.. Herbivor or carnivor
+    public string type; // What kind of creature is it.. Herbivor or carnivor
+    public string speciesName; // ex: pig, cat
     public int age = 1; // Age determins if he is able to hunt, or riproduce
     int maxAge = 100; // The maximum age a creature can live, at max age creatures die
     public bool isMale = false; // Finds a partner to reproduce
+    bool isPregnent = false;
+    public int gestationDays;
+    int currentGestationDays;
     public float size; // the actual size of the creature (scale of object)
     public float maxSize = 2f; // The maximum size a creature can grow
     float minSize = 0.5f; // The minimum size a creature can be born
@@ -27,6 +33,11 @@ public class CreaturesBase: CreatureWorldPositioning {
     public float hitPoints = 0f;
 
     // CONDITIONS -------------------------------------------------------
+    // GestationDays
+    public void GestationDays(int _gestationDays) {
+        gestationDays = _gestationDays;
+    }
+
     // Custimise creature conditions
     public void ConditionsSetUp(int _maxAge, float _maxSize = 2f, float _minSize = 0.5f) {
         maxAge = _maxAge;
@@ -35,14 +46,18 @@ public class CreaturesBase: CreatureWorldPositioning {
     }
     // INITIALIZE --------------------------------------------------------
     // Species type and behavior - on Awake is used when game is started to have rendom ages
-    public void InitializeSpecies(string _type, bool onAwake = false) {
-        type = _type;
+    public void InitializeSpecies(string _type, string _name, bool _sexOverride = false, bool _isMale = false, bool _onAwake = false) {
+        
         // Live
         isAlive = true;
         SkeletonMeshUpdate();
         gameObject.SetActive(true);
         // Age
-        if (onAwake) {
+        if (_onAwake) {
+            // Type of creature
+            type = _type;
+            // Name
+            speciesName = _name;
             // Set random Age
             age = Random.Range(1, maxAge); // max age is exclded since certure dies at max age
         }
@@ -50,10 +65,13 @@ public class CreaturesBase: CreatureWorldPositioning {
             age = 1;
         }
         // Set random Sex
-        int _sex = Random.Range(0, 2);
-        if(_sex == 1) {
-            isMale = true;
+        if (!_sexOverride) {
+            int _sex = Random.Range(0, 2);
+            if (_sex == 1) {
+                isMale = true;
+            }
         }
+        
         // Set Size to Age
         UpdateSize();
     }
@@ -75,6 +93,9 @@ public class CreaturesBase: CreatureWorldPositioning {
 
     // Age Update
     public void AgeUpdate() {
+        if (!isAlive) {
+            return;
+        }
         age++;
         // Die
         if(age == maxAge) {
@@ -86,8 +107,46 @@ public class CreaturesBase: CreatureWorldPositioning {
         }
     }
 
+    // Updates on daily bases (Biome)
+    public void DailyUpdate() {
+        if (!isAlive) {
+            return;
+        }
+        // Pregnancy
+        Pregnant();
+    }
+
     // Search for partner and reproduce
-    public void Reproduce() {
+    public int Reproduce(bool _exclusiveSearch, bool _searchForMale = false) {
+        int _reply = -1;
+        int _reproductionAge = maxAge / 5;
+        // If female over 18
+        if(isAlive && age >= _reproductionAge) {
+            if (((!isMale && !_exclusiveSearch) || (_exclusiveSearch && !_searchForMale)) && !isPregnent) {
+                _reply = (int)genderType.female;
+            }
+            else if ((isMale && !_exclusiveSearch) || (_exclusiveSearch && _searchForMale)) {
+                _reply = (int)genderType.male;
+            }
+        }
+        return _reply;
+    }
+
+    // Pregnant
+    public void Pregnant(bool _make = false) {
+        if (_make) {
+            isPregnent = true;
+            currentGestationDays = gestationDays;
+        }
+        // Time pass by
+        else if(isPregnent){
+            currentGestationDays--;
+            if(currentGestationDays <= 0) {
+                isPregnent = false;
+                // Birth
+                BiomeController.Birth(speciesName);
+            }
+        }
     }
 
     // Harvested for food - Eaten by somthing else
@@ -110,6 +169,10 @@ public class CreaturesBase: CreatureWorldPositioning {
         // Spawn skeleton
         SkeletonMeshUpdate();
         BiomeController.HealthUpdate(false);
+        BiomeController.DeathRate(speciesName, isPregnent);
+        if (isPregnent) {
+            isPregnent = false;
+        }
     }
 
     // Skeleton Mesh setup, Setup Meshes
@@ -144,7 +207,7 @@ public class CreaturesBase: CreatureWorldPositioning {
             
         }
         else {
-            //Debug.LogWarning("Need to setup Skeleton before: " + gameObject.name);
+            Debug.LogWarning("Need to setup Skeleton before: " + gameObject.name);
         }
     }
 }

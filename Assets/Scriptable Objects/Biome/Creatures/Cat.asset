@@ -11,18 +11,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ddc175c5731a4c458f1cbbfe804dc23, type: 3}
   m_Name: Cat
   m_EditorClassIdentifier: 
-  speciesName: carnivore
+  speciesType: carnivore
+  speciesName: cat
   modelPrefab: {fileID: 1629845386683008, guid: 5eb4a0ad8e643dd44a2f9c152dfcde16,
     type: 2}
   matreial: {fileID: 2100000, guid: b414f4a1559aee74cbe0bc5c3d1fafa4, type: 2}
-  maxHerdLimit: 25
   startHerdLimit: 2
   nestsNum: 3
   maxSpeed: 5
   maxJumpForce: 0
   hitPoints: 25
+  gestationDays: 270
   zLayerNumber: 2
-  worldZdepth: -3.0442972
+  worldZdepth: 0
   limitMovment: 0
   skeletonMesh: {fileID: 4300000, guid: c5f6967f565dfd7468a5509c2c0d50ce, type: 3}
   species:
@@ -32,23 +33,3 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  speicesContainer: {fileID: 0}

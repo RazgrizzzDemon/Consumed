@@ -78,6 +78,10 @@ public class PlayerControlls : MonoBehaviour {
 
         if (controlLock) {
             moveDir = new Vector3();
+            if (PlayerStats.GetHealth() == 0 && !animator.GetBool("DieAnim")) {
+                animator.SetBool("BiteAnim", false);
+                animator.SetBool("DieAnim", true);
+            }
             return;
         }
         LayerSwitch();

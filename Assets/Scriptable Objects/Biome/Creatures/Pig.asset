@@ -11,16 +11,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ddc175c5731a4c458f1cbbfe804dc23, type: 3}
   m_Name: Pig
   m_EditorClassIdentifier: 
-  speciesName: herbivore
+  speciesType: herbivore
+  speciesName: pig
   modelPrefab: {fileID: 1076374623133548, guid: 5ac58603b0311784c96409c66e1c369c,
     type: 2}
   matreial: {fileID: 2100000, guid: 99de7c75529325345aedbd671b09a193, type: 2}
-  maxHerdLimit: 50
   startHerdLimit: 7
   nestsNum: 5
   maxSpeed: 2
   maxJumpForce: 15
   hitPoints: 10
+  gestationDays: 135
   zLayerNumber: 1
   worldZdepth: 4.870876
   limitMovment: 1
@@ -61,19 +62,3 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  speicesContainer: {fileID: 0}

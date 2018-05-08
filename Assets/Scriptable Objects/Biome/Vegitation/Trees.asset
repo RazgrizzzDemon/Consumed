@@ -11,17 +11,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99f586aa79826fc4999cda1e4aa8bc23, type: 3}
   m_Name: Trees
   m_EditorClassIdentifier: 
-  speciesName: trees
+  speciesType: trees
+  speciesName: trees1
   modelPrefab:
   - {fileID: 1056299735679736, guid: 35b54b0e07f64f94cb1ace8872d8d188, type: 2}
   - {fileID: 1632781423431058, guid: 279bb0eb9f173374d9f7463fd7ac59a0, type: 2}
   - {fileID: 1505193490293234, guid: af2376d8d0f69f24597858abb0b570e6, type: 2}
-  maxPlantationLimit: 200
+  totalPlants: 60
   startPlantationLimit: 10
   plantationsNum: 6
   maxAge: 1000
+  gestationDays: 365
   zLayerNumber: 0
-  worldZdepth: 0
+  angleOffset: 0
+  worldZdepth: 9.741752
   deadVegMesh:
   - {fileID: 4300000, guid: 54e160cbb855c8542baebfaa7c115cc0, type: 3}
   - {fileID: 4300000, guid: f787af574ca5d5c43889246792770752, type: 3}
@@ -29,5 +32,64 @@ MonoBehaviour:
   isRandomRotY: 1
   isSprites: 0
   pivotIsBase: 1
-  species: []
-  speicesContainer: {fileID: 0}
+  species:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
