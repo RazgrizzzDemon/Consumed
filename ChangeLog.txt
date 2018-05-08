@@ -138,23 +138,54 @@ Main Menu - 30/4/18
 - Created opening and closing animations.
 - Scripted a small aniation for the introduction to open book and display buttons
 
+
+####################################################
+
+Biome - 7/5/18
+- Tree coliders are now smaller. Where interfiering into other paths.
+- Biome clock is stopped when help menu is on.
+- World clock is now paused during entry.
+
+UI - 7/5/18
+- Speech Bubble apears after planetary entry.
+- If player hits escape, a help menu will appear.
+- Controls instructions added.
+- 3D icons are now rendered on a Texture and displayed on UI via a raw image.
+
+Graphics - 7/5/18
+- Applied post processing stack to enhace visul quality.
+
+####################################################
+
+Biome - 8/5/18
+- Implimented Flying Scriptable Objects.
+- Created Cloud models.
+- Created Clouds.
+
+Alien - 8/5/18
+- Reduced hunger rate by half, so that player is not rushing to eat to survive, but instead it will be his choice to eata lot.
+- Controls reset upone control lock.
+
+Camera - 8/5/18
+- Fixed Camera Bounce. Now it is calculating the hypotenius of the target and applying it to the camrea Y translate.
+
+Lighting - 8/5/18
+- Replaced sun disk with a Lens Flare
+- Day light lights now change intensity whil sky shift from day to night
 _____________________________________________________________________
 TO DO
 ------
 Biome
 * Fine tune date and stats
-* Tree collisder must be reduced to trunk only.
+* Speed up time when planet is dead.
 
 UI
 * Main Menu
-* Controls / Instructions
+* Controls Z lane
 * Year Text graphics
-* Adjust 3D icons scale and position to different screen sizes
-
-Camera
-* Camera bounce at 90 and 0 angle
 
 Alien
 * take damge if bite after entering trigger.
 * Health bug, stops to increase after some time.
 * Death Animation.
+* Upone Death and taking damage, stop damage animation.

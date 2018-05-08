@@ -71,7 +71,13 @@ public class PlayerControlls : MonoBehaviour {
 
     // METHODS --------------------------------------------------------------------------------------------------
     void ControlPlayer() {
+        // Help Menu
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            UIController.ToggleHelpMenu();
+        }
+
         if (controlLock) {
+            moveDir = new Vector3();
             return;
         }
         LayerSwitch();

@@ -11,11 +11,15 @@ public class UIController : MonoBehaviour {
     [Header ("Info")]
     public Text yearText;
     static string yearStr = "";
+    public GameObject speechBubbleObj;
+    public static GameObject speechBubbleObjStat;
 
     [Space]
     // Panels
     [Header("Panels")]
     public GameObject powerUpPanel;
+    public GameObject helpMenuPanel;
+    static GameObject helpMenuPanelStat;
 
     [Space]
     // Buttons
@@ -46,12 +50,15 @@ public class UIController : MonoBehaviour {
     [Space]
     // Other
     [Header ("Other")]
+    // Power Panel
     public static bool powerPanel_isSwitchPos = false;
     public static bool arePowersAvailable = false;
     public float powerPanel_Speed;
     public float powerPanel_HiddenPos;
     public float powerPanel_AvailablePos;
     Vector3 powerPanel_CurrentPos;
+    // Help Menu
+    public static bool isHelpMenu = false;
 
     // MONOBEHAVIOUR --------------------------------------------------------------
     private void Awake() {
@@ -59,6 +66,11 @@ public class UIController : MonoBehaviour {
         barMaxSizeDelta = evolutionBar.GetComponent<RectTransform>().sizeDelta;
         alienMaxScale = PlayerStats.maxGrowSize;
         alienScaleRange = alienMaxScale - PlayerStats.growSize;
+        speechBubbleObj.SetActive(false);
+        helpMenuPanelStat = helpMenuPanel;
+        helpMenuPanelStat.SetActive(false);
+        speechBubbleObjStat = speechBubbleObj;
+        speechBubbleObjStat.SetActive(false);
     }
     // Use this for initialization
     void Start () {
@@ -141,6 +153,27 @@ public class UIController : MonoBehaviour {
     void EvolutionBarUpdate() {
         currentBarWidth = ((PlayerStats.growSize - 1f) / alienScaleRange) * barMaxSizeDelta[0];
         evolutionBar.GetComponent<RectTransform>().sizeDelta = new Vector2(currentBarWidth, barMaxSizeDelta[1]);
+    }
+
+    // Toggles on and off help manu
+    public static void ToggleHelpMenu() {
+        isHelpMenu = !isHelpMenu;
+        PlayerControlls.controlLock = isHelpMenu;
+        BiomeController.isPaused = isHelpMenu;
+        // Enable Disable Menu
+        if (!isHelpMenu) {
+            if (helpMenuPanelStat.activeSelf) {
+                helpMenuPanelStat.SetActive(false);
+            }
+            return;
+        }
+        else if (!helpMenuPanelStat.activeSelf) {
+            helpMenuPanelStat.SetActive(true);
+        }
+        // Speach bubble
+        if (speechBubbleObjStat.activeSelf) {
+            speechBubbleObjStat.SetActive(false);
+        }
     }
 
     // BUTTONS ------------------------------------------------------------------------

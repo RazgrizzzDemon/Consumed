@@ -6,10 +6,11 @@ public class PlayerStats: MonoBehaviour {
 
     // Physical
     [Header("Physical")]
-    public static float growSize = 1f; // equivalent to age
     public float eatingUpperEdge = 0.1f; // Allows you to eat slightly larger ceratures
+    public float growRate;
+    public static float growSize = 1f; // equivalent to age
     public  static float maxGrowSize = 5f;
-    public  float growRate;
+    
     int evolutionStage = 0;
     const int MAX_EVOLUTIONS = 3;
     float evolutionIncriment;
@@ -34,7 +35,7 @@ public class PlayerStats: MonoBehaviour {
     static float hunger = 100f;
 
     // Negatives (per day)
-    static float hungerRate = 1f;
+    static float hungerRate = 0.5f;
     static float feedingMultiplier = 4f;
     static float starvationDmg = 10f;
 

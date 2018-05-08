@@ -21,11 +21,13 @@ public class BiomeController : MonoBehaviour {
     [Header("World")]
     public GameObject world;
     Vector3 worldBounds;
-    float worldRadius;
+    public static float worldRadius;
+    static float timeMultiplier = 1;
     static float worldClock = 0f;
     static float oneDayTime = 1f;
     static int worldDays = 1;
     static int worldYears = 0;
+    public static bool isPaused = true; // Only world clock is stoped, animations continue
     public static float[] zDepthLayers;
     public static int maxZlayers;
 
@@ -36,6 +38,9 @@ public class BiomeController : MonoBehaviour {
     [Space]
     [Header("Vegitation")]
     public VegitationSpecs[] vegitationSpecs;
+    [Space]
+    [Header("Flying Types")]
+    public FlyingTypes[] flyingTypes;
 
     [Space]
     // Day and Night
@@ -48,6 +53,10 @@ public class BiomeController : MonoBehaviour {
     Vector2 dawnAngles = new Vector2();// Direction is towards vector angle, Clock wise is dawn.
     Vector2 duskAngles = new Vector2(); // Direction is towards vector angle, Anti-clockwise is duck.
     float dawnDuskRange; // the range between angles
+    public Light SunLight;
+    public float sunMaxLight;
+    public Light dirrectLight;
+    public float dirrectionalMaxLight;
 
     [Space]
     // Planetary Entry
@@ -79,6 +88,10 @@ public class BiomeController : MonoBehaviour {
             // Position
             PlantationDistributor(i);
         }
+        // Flying Objects Awake
+        for (int i = 0; i < flyingTypes.Length; i++) {
+            flyingTypes[i].Initialize();
+        }
         // Dawn and dusk angles
         duskAngles[0] = 180f - (dawnDuskAngle / 2f);
         duskAngles[1] = 180f + (dawnDuskAngle / 2f);
@@ -91,7 +104,10 @@ public class BiomeController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        
+        // Flying Objects Awake
+        for (int i = 0; i < flyingTypes.Length; i++) {
+            flyingTypes[i].Start();
+        }
     }
 	
 	// Update is called once per frame
@@ -120,8 +136,12 @@ public class BiomeController : MonoBehaviour {
     // METHODS ----------------------------------------------------------------------
     // ** Wolrd Time Update **
     void WorldTimeUpdate() {
+        // Pause
+        if (isPaused) {
+            return;
+        }
         // Time
-        worldClock += Time.deltaTime;
+        worldClock += (Time.deltaTime * timeMultiplier);
         // One Day
         if(worldClock >= oneDayTime) {
             // Update Alien
@@ -178,6 +198,8 @@ public class BiomeController : MonoBehaviour {
                 if (_normalized < 0.5f) {
                     _normalized /= 0.5f;
                     _skyCol = Color.Lerp(skyColors[(int)skyTypes.day], skyColors[(int)skyTypes.dawnDusk], _normalized);
+                    SunLight.intensity = Mathf.Lerp(sunMaxLight, 0.0f, _normalized);
+                    dirrectLight.intensity = Mathf.Lerp(dirrectionalMaxLight, 0.0f, _normalized);
                     starParticleSystem.SetActive(false);
                 }
                 else {
@@ -194,6 +216,8 @@ public class BiomeController : MonoBehaviour {
                 }
                 else {
                     _skyCol = Color.Lerp(skyColors[(int)skyTypes.dawnDusk], skyColors[(int)skyTypes.day], _normalized);
+                    SunLight.intensity = Mathf.Lerp(0f, sunMaxLight, _normalized);
+                    dirrectLight.intensity = Mathf.Lerp(0f, dirrectionalMaxLight, _normalized);
                     starParticleSystem.SetActive(false);
                 }
             }
@@ -218,19 +242,18 @@ public class BiomeController : MonoBehaviour {
             entryBuffer += worldRadius;
             entryRange = PlayerControlls.playerPos[1] - entryBuffer;
             entryParticles.SetActive(true);
-            //Debug.Log("Entry Start");
         }
-        //Debug.Log("Player Pos: " + PlayerControlls.playerPos[1]);
-        //Debug.Log("Entry Buffer: " + entryBuffer);
-        //Debug.Log("Entry range: " + entryRange);
-        //Debug.Log("---------------------------------");
         float _normalized = ((PlayerControlls.playerPos[1] - entryBuffer) / entryRange);
         Camera.main.GetComponent<Camera>().backgroundColor = Color.Lerp(skyColors[(int)skyTypes.day], skyColors[(int)skyTypes.night], _normalized);
-        if(_normalized <= 0) {
+        SunLight.intensity = Mathf.Lerp(sunMaxLight, 0.0f, _normalized);
+        dirrectLight.intensity = Mathf.Lerp(dirrectionalMaxLight, 0.0f, _normalized);
+        // Stop Entry
+        if (_normalized <= 0) {
             isEntry = false;
             entryParticles.SetActive(false);
             PlayerControlls.controlLock = false; // unlock controls
-            //Debug.Log("Entry Stop");
+            UIController.speechBubbleObjStat.SetActive(true); // Show Bubble
+            isPaused = false; // Start world Timer
         }
     }
 
@@ -286,6 +309,9 @@ public class BiomeController : MonoBehaviour {
         }
         biomeMat.color = Color.Lerp(biomeHealthCol[1], biomeHealthCol[0], (biomeHealth / 100));
         biomeHealthUpdate = false;
+        if(biomeHealth <= 0.9) {
+            timeMultiplier = 5;
+        }
     }
 
     // LIFE FORMS -------------------------------------------------------------------------------------------
