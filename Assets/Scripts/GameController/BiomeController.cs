@@ -60,10 +60,11 @@ public class BiomeController : MonoBehaviour {
     Vector2 dawnAngles = new Vector2();// Direction is towards vector angle, Clock wise is dawn.
     Vector2 duskAngles = new Vector2(); // Direction is towards vector angle, Anti-clockwise is duck.
     float dawnDuskRange; // the range between angles
-    public Light SunLight;
+    public Light sunLight;
     public float sunMaxLight;
     public Light dirrectLight;
     public float dirrectionalMaxLight;
+    public Light moonLight;
 
     [Space]
     // Planetary Entry
@@ -112,6 +113,8 @@ public class BiomeController : MonoBehaviour {
         dawnAngles[0] = 360f - (dawnDuskAngle / 2f);
         dawnAngles[1] = 0f + (dawnDuskAngle / 2f);
         dawnDuskRange = duskAngles[1] - duskAngles[0];
+        // Lights
+        moonLight.gameObject.SetActive(false);
         // Get Star Mask Sprite
         starMaskSpr = starMaskRevolveObj.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>();
     }
@@ -199,7 +202,7 @@ public class BiomeController : MonoBehaviour {
             // Reset Clock
             worldClock = 0f;
             // String Update
-            UIController.YearUpdate("Years: " + worldYears + " /  Days: " + worldDays);
+            UIController.YearUpdate("Days: " + worldDays + ", Years: " + worldYears);
         }
     }
 
@@ -215,6 +218,7 @@ public class BiomeController : MonoBehaviour {
             _isSkyUpdate = true;
             _normalized = (_playerAngle - duskAngles[0]) / dawnDuskRange;
         }
+        // Shift to day
         else if((_playerAngle < 360 && _playerAngle > dawnAngles[0]) || (_playerAngle > 0 && _playerAngle < dawnAngles[1])) {
             _isSkyUpdate = true;
             _isDayToNight = false;
@@ -226,6 +230,31 @@ public class BiomeController : MonoBehaviour {
             }
         }
 
+        // Enable Disable Lights
+        if(_playerAngle >= 0 && _playerAngle <= 180) {
+            // Day Lights
+            SwitchBiomeLights(true);
+        }
+        else {
+            // Night Lights
+            SwitchBiomeLights(false);
+        }
+
+        // Year Text Colour Switch
+        if(_playerAngle > duskAngles[1] && _playerAngle < dawnAngles[0]) {
+            // Night Clours
+            if (UIController.isDay) {
+                UIController.isDay = false;
+                UIController.isColorSwitch = true;
+            }
+        }
+        else {
+            if (!UIController.isDay) {
+                UIController.isDay = true;
+                UIController.isColorSwitch = true;
+            }
+        }
+
         if (_isSkyUpdate) {
             Color _skyCol = new Color();
             // Day to Night
@@ -233,7 +262,7 @@ public class BiomeController : MonoBehaviour {
                 if (_normalized < 0.5f) {
                     _normalized /= 0.5f;
                     _skyCol = Color.Lerp(skyColors[(int)skyTypes.day], skyColors[(int)skyTypes.dawnDusk], _normalized);
-                    SunLight.intensity = Mathf.Lerp(sunMaxLight, 0.0f, _normalized);
+                    sunLight.intensity = Mathf.Lerp(sunMaxLight, 0.0f, _normalized);
                     dirrectLight.intensity = Mathf.Lerp(dirrectionalMaxLight, 0.0f, _normalized);
                     starParticleSystem.SetActive(false);
                 }
@@ -244,6 +273,7 @@ public class BiomeController : MonoBehaviour {
                     starParticleSystem.SetActive(true);
                 }
             }
+            // Night to Day
             else {
                 if(_playerAngle > dawnAngles[0]) {
                     _skyCol = Color.Lerp(skyColors[(int)skyTypes.night], skyColors[(int)skyTypes.dawnDusk], _normalized);
@@ -251,7 +281,7 @@ public class BiomeController : MonoBehaviour {
                 }
                 else {
                     _skyCol = Color.Lerp(skyColors[(int)skyTypes.dawnDusk], skyColors[(int)skyTypes.day], _normalized);
-                    SunLight.intensity = Mathf.Lerp(0f, sunMaxLight, _normalized);
+                    sunLight.intensity = Mathf.Lerp(0f, sunMaxLight, _normalized);
                     dirrectLight.intensity = Mathf.Lerp(0f, dirrectionalMaxLight, _normalized);
                     starParticleSystem.SetActive(false);
                 }
@@ -263,8 +293,20 @@ public class BiomeController : MonoBehaviour {
             // Rotate counter player
             starMaskRevolveObj.transform.localEulerAngles = new Vector3(0f, 0f, -_playerAngle + 90f);
         }
-        
+    }
 
+    // Enable Disable Lights
+    void SwitchBiomeLights(bool _isDay) {
+        if(_isDay && moonLight.gameObject.activeSelf) {
+            sunLight.gameObject.SetActive(true);
+            dirrectLight.gameObject.SetActive(true);
+            moonLight.gameObject.SetActive(false);
+        }
+        else if(!_isDay && sunLight.gameObject.activeSelf) {
+            sunLight.gameObject.SetActive(false);
+            dirrectLight.gameObject.SetActive(false);
+            moonLight.gameObject.SetActive(true);
+        }
     }
 
     // Alien Planetary Entry
@@ -280,7 +322,7 @@ public class BiomeController : MonoBehaviour {
         }
         float _normalized = ((PlayerControlls.playerPos[1] - entryBuffer) / entryRange);
         Camera.main.GetComponent<Camera>().backgroundColor = Color.Lerp(skyColors[(int)skyTypes.day], skyColors[(int)skyTypes.night], _normalized);
-        SunLight.intensity = Mathf.Lerp(sunMaxLight, 0.0f, _normalized);
+        sunLight.intensity = Mathf.Lerp(sunMaxLight, 0.0f, _normalized);
         dirrectLight.intensity = Mathf.Lerp(dirrectionalMaxLight, 0.0f, _normalized);
         // Stop Entry
         if (_normalized <= 0) {

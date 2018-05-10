@@ -34,9 +34,12 @@ public class FlyingTypes : ScriptableObject {
     public void Initialize() {
         flyingObjs = new GameObject[amountToSpawn];
         for (int i = 0; i < flyingObjs.Length; i++) {
+            // 3D Model Creation
             flyingObjs[i] = new GameObject("cloud_" + i);
             flyingObjs[i].AddComponent<MeshFilter>().mesh = meshtypes[Random.Range(0, meshtypes.Length)];
             flyingObjs[i].AddComponent<MeshRenderer>().material = objsMaterial;
+            flyingObjs[i].GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            flyingObjs[i].GetComponent<MeshRenderer>().motionVectorGenerationMode = MotionVectorGenerationMode.ForceNoMotion;
 
             // Height
             float _hieght = Random.Range(minHeight, maxHeight);

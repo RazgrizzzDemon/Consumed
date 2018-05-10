@@ -161,7 +161,6 @@ Biome - 8/5/18
 - Implimented Flying Scriptable Objects.
 - Created Cloud models.
 - Created Clouds.
-**
 - Creatures now reproduce if there is pace in the herd, if they have the right age, and if they find a partner.
 - Fixed bug of not growing vegitation
 - Biome regenerates after being dedtroyd ann alien dies.
@@ -171,31 +170,46 @@ Biome - 8/5/18
 Alien - 8/5/18
 - Reduced hunger rate by half, so that player is not rushing to eat to survive, but instead it will be his choice to eata lot.
 - Controls reset upone control lock.
-**
 - Die Animation
 
 Camera - 8/5/18
 - Fixed Camera Bounce. Now it is calculating the hypotenius of the target and applying it to the camrea Y translate.
-**
 
 Lighting - 8/5/18
 - Replaced sun disk with a Lens Flare
 - Day light lights now change intensity whil sky shift from day to night
-**
+
+####################################################
+
+Performace - 10/5/18
+- clouds, moon, and grass do not cast shadows
+- Static objects do not have vector motion.
+- Static light map was enebaled.
+- Cutout material was removed. (was used only for cats wiskers)
+- Lights now are disbled based on world location (day and night). Huge effect in FPS.
+
+Alien - 10/5/18
+- Bite animatoin speed is now at 1.8 from 1.
+
+UI - 10/5/18
+- UI 3D icons have now a flat colour and a 3D outline.
+- Date formatting was changed from "Year: 0 / Day: 0" to "Day: 0, Year: 0".
+- Date display was moved under evolution bar.
+- Date colour now changes based on world location. During day its Black and during night its white.
+
+Intro - 10/5/18
+- Removed book scene.
+- Created static scenes with paralex story board.
 _____________________________________________________________________
 TO DO
 ------
 Biome
 * Fine tune date and stats
-* Speed up time when planet is dead.
 
 UI
 * Main Menu
-* Controls Z lane
-* Year Text graphics
+* Create portal in Intro scene 3
 
 Alien
 * take damge if bite after entering trigger.
 * Health bug, stops to increase after some time.
-* Death Animation.
-* Upone Death and taking damage, stop damage animation.

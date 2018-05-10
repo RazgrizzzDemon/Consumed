@@ -369,6 +369,8 @@
     <Compile Include="Assets\Scripts\Player\PlayerStats.cs" />
     <Compile Include="Assets\Scripts\Player\worldGravityBody.cs" />
     <Compile Include="Assets\Scripts\UI\ActionButton.cs" />
+    <Compile Include="Assets\Scripts\UI\CameraPanRotate.cs" />
+    <Compile Include="Assets\Scripts\UI\SwipeManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />

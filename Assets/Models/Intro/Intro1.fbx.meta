@@ -1,0 +1,607 @@
+fileFormatVersion: 2
+guid: 012759aaaa20989479842cd17148fb21
+timeCreated: 1525968867
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: eggShell
+    100002: ground
+    100004: //RootNode
+    100006: mountain_grp1
+    100008: mountain_grp10
+    100010: mountain_grp11
+    100012: mountain_grp2
+    100014: mountain_grp3
+    100016: mountain_grp4
+    100018: mountain_grp5
+    100020: mountain_grp6
+    100022: mountain_grp7
+    100024: mountain_grp8
+    100026: mountain_grp9
+    100028: stone1
+    100030: stone1 1
+    100032: stone1 10
+    100034: stone1 11
+    100036: stone1 12
+    100038: stone1 13
+    100040: stone1 14
+    100042: stone1 15
+    100044: stone1 16
+    100046: stone1 2
+    100048: stone1 3
+    100050: stone1 4
+    100052: stone1 5
+    100054: stone1 6
+    100056: stone1 7
+    100058: stone1 8
+    100060: stone1 9
+    100062: stone10
+    100064: stone11
+    100066: stone12
+    100068: stone12 1
+    100070: stone13
+    100072: stone13 1
+    100074: stone14
+    100076: stone14 1
+    100078: stone15
+    100080: stone15 1
+    100082: stone16
+    100084: stone17
+    100086: stone18
+    100088: stone19
+    100090: stone2
+    100092: stone2 1
+    100094: stone2 10
+    100096: stone2 11
+    100098: stone2 12
+    100100: stone2 13
+    100102: stone2 14
+    100104: stone2 15
+    100106: stone2 16
+    100108: stone2 2
+    100110: stone2 3
+    100112: stone2 4
+    100114: stone2 5
+    100116: stone2 6
+    100118: stone2 7
+    100120: stone2 8
+    100122: stone2 9
+    100124: stone20
+    100126: stone20 1
+    100128: stone21
+    100130: stone21 1
+    100132: stone3
+    100134: stone3 1
+    100136: stone3 10
+    100138: stone3 11
+    100140: stone3 12
+    100142: stone3 13
+    100144: stone3 14
+    100146: stone3 15
+    100148: stone3 16
+    100150: stone3 2
+    100152: stone3 3
+    100154: stone3 4
+    100156: stone3 5
+    100158: stone3 6
+    100160: stone3 7
+    100162: stone3 8
+    100164: stone3 9
+    100166: stone4
+    100168: stone4 1
+    100170: stone4 10
+    100172: stone4 11
+    100174: stone4 12
+    100176: stone4 13
+    100178: stone4 14
+    100180: stone4 15
+    100182: stone4 16
+    100184: stone4 2
+    100186: stone4 3
+    100188: stone4 4
+    100190: stone4 5
+    100192: stone4 6
+    100194: stone4 7
+    100196: stone4 8
+    100198: stone4 9
+    100200: stone5
+    100202: stone5 1
+    100204: stone6
+    100206: stone6 1
+    100208: stone7
+    100210: stone7 1
+    100212: stone8
+    100214: stone9
+    100216: stone_grp1
+    100218: stone_grp2
+    100220: stone_grp3
+    100222: stone_grp4
+    100224: stone_grp5
+    100226: stone_grp6
+    400000: eggShell
+    400002: ground
+    400004: //RootNode
+    400006: mountain_grp1
+    400008: mountain_grp10
+    400010: mountain_grp11
+    400012: mountain_grp2
+    400014: mountain_grp3
+    400016: mountain_grp4
+    400018: mountain_grp5
+    400020: mountain_grp6
+    400022: mountain_grp7
+    400024: mountain_grp8
+    400026: mountain_grp9
+    400028: stone1
+    400030: stone1 1
+    400032: stone1 10
+    400034: stone1 11
+    400036: stone1 12
+    400038: stone1 13
+    400040: stone1 14
+    400042: stone1 15
+    400044: stone1 16
+    400046: stone1 2
+    400048: stone1 3
+    400050: stone1 4
+    400052: stone1 5
+    400054: stone1 6
+    400056: stone1 7
+    400058: stone1 8
+    400060: stone1 9
+    400062: stone10
+    400064: stone11
+    400066: stone12
+    400068: stone12 1
+    400070: stone13
+    400072: stone13 1
+    400074: stone14
+    400076: stone14 1
+    400078: stone15
+    400080: stone15 1
+    400082: stone16
+    400084: stone17
+    400086: stone18
+    400088: stone19
+    400090: stone2
+    400092: stone2 1
+    400094: stone2 10
+    400096: stone2 11
+    400098: stone2 12
+    400100: stone2 13
+    400102: stone2 14
+    400104: stone2 15
+    400106: stone2 16
+    400108: stone2 2
+    400110: stone2 3
+    400112: stone2 4
+    400114: stone2 5
+    400116: stone2 6
+    400118: stone2 7
+    400120: stone2 8
+    400122: stone2 9
+    400124: stone20
+    400126: stone20 1
+    400128: stone21
+    400130: stone21 1
+    400132: stone3
+    400134: stone3 1
+    400136: stone3 10
+    400138: stone3 11
+    400140: stone3 12
+    400142: stone3 13
+    400144: stone3 14
+    400146: stone3 15
+    400148: stone3 16
+    400150: stone3 2
+    400152: stone3 3
+    400154: stone3 4
+    400156: stone3 5
+    400158: stone3 6
+    400160: stone3 7
+    400162: stone3 8
+    400164: stone3 9
+    400166: stone4
+    400168: stone4 1
+    400170: stone4 10
+    400172: stone4 11
+    400174: stone4 12
+    400176: stone4 13
+    400178: stone4 14
+    400180: stone4 15
+    400182: stone4 16
+    400184: stone4 2
+    400186: stone4 3
+    400188: stone4 4
+    400190: stone4 5
+    400192: stone4 6
+    400194: stone4 7
+    400196: stone4 8
+    400198: stone4 9
+    400200: stone5
+    400202: stone5 1
+    400204: stone6
+    400206: stone6 1
+    400208: stone7
+    400210: stone7 1
+    400212: stone8
+    400214: stone9
+    400216: stone_grp1
+    400218: stone_grp2
+    400220: stone_grp3
+    400222: stone_grp4
+    400224: stone_grp5
+    400226: stone_grp6
+    2100000: environment_Mat
+    2300000: eggShell
+    2300002: ground
+    2300004: stone1
+    2300006: stone1 1
+    2300008: stone1 10
+    2300010: stone1 11
+    2300012: stone1 12
+    2300014: stone1 13
+    2300016: stone1 14
+    2300018: stone1 15
+    2300020: stone1 16
+    2300022: stone1 2
+    2300024: stone1 3
+    2300026: stone1 4
+    2300028: stone1 5
+    2300030: stone1 6
+    2300032: stone1 7
+    2300034: stone1 8
+    2300036: stone1 9
+    2300038: stone10
+    2300040: stone11
+    2300042: stone12
+    2300044: stone12 1
+    2300046: stone13
+    2300048: stone13 1
+    2300050: stone14
+    2300052: stone14 1
+    2300054: stone15
+    2300056: stone15 1
+    2300058: stone16
+    2300060: stone17
+    2300062: stone18
+    2300064: stone19
+    2300066: stone2
+    2300068: stone2 1
+    2300070: stone2 10
+    2300072: stone2 11
+    2300074: stone2 12
+    2300076: stone2 13
+    2300078: stone2 14
+    2300080: stone2 15
+    2300082: stone2 16
+    2300084: stone2 2
+    2300086: stone2 3
+    2300088: stone2 4
+    2300090: stone2 5
+    2300092: stone2 6
+    2300094: stone2 7
+    2300096: stone2 8
+    2300098: stone2 9
+    2300100: stone20
+    2300102: stone20 1
+    2300104: stone21
+    2300106: stone21 1
+    2300108: stone3
+    2300110: stone3 1
+    2300112: stone3 10
+    2300114: stone3 11
+    2300116: stone3 12
+    2300118: stone3 13
+    2300120: stone3 14
+    2300122: stone3 15
+    2300124: stone3 16
+    2300126: stone3 2
+    2300128: stone3 3
+    2300130: stone3 4
+    2300132: stone3 5
+    2300134: stone3 6
+    2300136: stone3 7
+    2300138: stone3 8
+    2300140: stone3 9
+    2300142: stone4
+    2300144: stone4 1
+    2300146: stone4 10
+    2300148: stone4 11
+    2300150: stone4 12
+    2300152: stone4 13
+    2300154: stone4 14
+    2300156: stone4 15
+    2300158: stone4 16
+    2300160: stone4 2
+    2300162: stone4 3
+    2300164: stone4 4
+    2300166: stone4 5
+    2300168: stone4 6
+    2300170: stone4 7
+    2300172: stone4 8
+    2300174: stone4 9
+    2300176: stone5
+    2300178: stone5 1
+    2300180: stone6
+    2300182: stone6 1
+    2300184: stone7
+    2300186: stone7 1
+    2300188: stone8
+    2300190: stone9
+    2300192: //RootNode
+    3300000: eggShell
+    3300002: ground
+    3300004: stone1
+    3300006: stone1 1
+    3300008: stone1 10
+    3300010: stone1 11
+    3300012: stone1 12
+    3300014: stone1 13
+    3300016: stone1 14
+    3300018: stone1 15
+    3300020: stone1 16
+    3300022: stone1 2
+    3300024: stone1 3
+    3300026: stone1 4
+    3300028: stone1 5
+    3300030: stone1 6
+    3300032: stone1 7
+    3300034: stone1 8
+    3300036: stone1 9
+    3300038: stone10
+    3300040: stone11
+    3300042: stone12
+    3300044: stone12 1
+    3300046: stone13
+    3300048: stone13 1
+    3300050: stone14
+    3300052: stone14 1
+    3300054: stone15
+    3300056: stone15 1
+    3300058: stone16
+    3300060: stone17
+    3300062: stone18
+    3300064: stone19
+    3300066: stone2
+    3300068: stone2 1
+    3300070: stone2 10
+    3300072: stone2 11
+    3300074: stone2 12
+    3300076: stone2 13
+    3300078: stone2 14
+    3300080: stone2 15
+    3300082: stone2 16
+    3300084: stone2 2
+    3300086: stone2 3
+    3300088: stone2 4
+    3300090: stone2 5
+    3300092: stone2 6
+    3300094: stone2 7
+    3300096: stone2 8
+    3300098: stone2 9
+    3300100: stone20
+    3300102: stone20 1
+    3300104: stone21
+    3300106: stone21 1
+    3300108: stone3
+    3300110: stone3 1
+    3300112: stone3 10
+    3300114: stone3 11
+    3300116: stone3 12
+    3300118: stone3 13
+    3300120: stone3 14
+    3300122: stone3 15
+    3300124: stone3 16
+    3300126: stone3 2
+    3300128: stone3 3
+    3300130: stone3 4
+    3300132: stone3 5
+    3300134: stone3 6
+    3300136: stone3 7
+    3300138: stone3 8
+    3300140: stone3 9
+    3300142: stone4
+    3300144: stone4 1
+    3300146: stone4 10
+    3300148: stone4 11
+    3300150: stone4 12
+    3300152: stone4 13
+    3300154: stone4 14
+    3300156: stone4 15
+    3300158: stone4 16
+    3300160: stone4 2
+    3300162: stone4 3
+    3300164: stone4 4
+    3300166: stone4 5
+    3300168: stone4 6
+    3300170: stone4 7
+    3300172: stone4 8
+    3300174: stone4 9
+    3300176: stone5
+    3300178: stone5 1
+    3300180: stone6
+    3300182: stone6 1
+    3300184: stone7
+    3300186: stone7 1
+    3300188: stone8
+    3300190: stone9
+    3300192: //RootNode
+    4300000: ground
+    4300002: eggShell
+    4300004: stone1
+    4300006: stone2
+    4300008: stone3
+    4300010: stone4
+    4300012: stone20
+    4300014: stone21
+    4300016: stone1
+    4300018: stone2
+    4300020: stone3
+    4300022: stone4
+    4300024: stone1
+    4300026: stone2
+    4300028: stone3
+    4300030: stone4
+    4300032: stone1
+    4300034: stone2
+    4300036: stone3
+    4300038: stone4
+    4300040: stone5
+    4300042: stone6
+    4300044: stone7
+    4300046: stone1
+    4300048: stone2
+    4300050: stone3
+    4300052: stone4
+    4300054: stone5
+    4300056: stone6
+    4300058: stone7
+    4300060: stone8
+    4300062: stone9
+    4300064: stone10
+    4300066: stone11
+    4300068: stone1
+    4300070: stone2
+    4300072: stone3
+    4300074: stone4
+    4300076: stone1
+    4300078: stone2
+    4300080: stone3
+    4300082: stone4
+    4300084: stone1
+    4300086: stone2
+    4300088: stone3
+    4300090: stone4
+    4300092: stone1
+    4300094: stone2
+    4300096: stone3
+    4300098: stone4
+    4300100: stone1
+    4300102: stone2
+    4300104: stone3
+    4300106: stone4
+    4300108: stone1
+    4300110: stone2
+    4300112: stone3
+    4300114: stone4
+    4300116: stone1
+    4300118: stone2
+    4300120: stone3
+    4300122: stone4
+    4300124: stone1
+    4300126: stone2
+    4300128: stone3
+    4300130: stone4
+    4300132: stone1
+    4300134: stone2
+    4300136: stone3
+    4300138: stone4
+    4300140: stone1
+    4300142: stone2
+    4300144: stone3
+    4300146: stone4
+    4300148: stone12
+    4300150: stone13
+    4300152: stone14
+    4300154: stone15
+    4300156: stone1
+    4300158: stone2
+    4300160: stone3
+    4300162: stone4
+    4300164: stone12
+    4300166: stone13
+    4300168: stone14
+    4300170: stone15
+    4300172: stone16
+    4300174: stone17
+    4300176: stone18
+    4300178: stone19
+    4300180: stone1
+    4300182: stone2
+    4300184: stone3
+    4300186: stone4
+    4300188: stone20
+    4300190: stone21
+    4300192: Scene_1
+  externalObjects: {}
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 1
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

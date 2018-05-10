@@ -6,11 +6,15 @@ using UnityEngine.UI;
 public class UIController : MonoBehaviour {
 
     enum powerButtonsType { jump, speed, omnivore}
+    enum yearColTypes { day, night}
 
     // Info
     [Header ("Info")]
     public Text yearText;
     static string yearStr = "";
+    public Color[] yearTextCol = new Color[2];
+    public static bool isColorSwitch = false;
+    public static bool isDay = true;
     public GameObject speechBubbleObj;
     public static GameObject speechBubbleObjStat;
 
@@ -88,15 +92,32 @@ public class UIController : MonoBehaviour {
         StatsRefresh();
     }
 
-    // draw Evolution Bar
+    // Late update to allow player positioning
     private void LateUpdate() {
+        // Updates evolution bar
         EvolutionBarUpdate();
+        // Change Colour of text
+        YearTextColorSwitch();
     }
 
     // METHODS --------------------------------------------------------------------
     // Date text Update
     public static void YearUpdate(string _str) {
         yearStr = _str;
+    }
+
+    // Color Switch
+    void YearTextColorSwitch() {
+        if (isColorSwitch) {
+            // Day Col
+            int _col = (int)yearColTypes.day;
+            // Night Col
+            if (!isDay) {
+                _col = (int)yearColTypes.night;
+            }
+            yearText.color = yearTextCol[_col];
+            isColorSwitch = false;
+        }
     }
 
     // Show Hide panel
