@@ -7,11 +7,23 @@ public class CameraControl : MonoBehaviour {
     public GameObject target;
     public GameObject rotObj;
     public Vector3 positionOffset;
+    public float manualSpeed;
+    public int manualAxis = 2;
     float targetRadius;
-    //public Vector3 rotationOffset;
+    Vector3 currentAngle;
 
-	// Update is called once per frame
-	void LateUpdate () {
+    public static bool isManual = false;
+
+    private void Awake() {
+        isManual = false;
+    }
+
+    // Update is called once per frame
+    void LateUpdate () {
+        if (isManual) {
+            Manual();
+            return;
+        }
         MoveWithTarget();
 	}
 
@@ -19,10 +31,10 @@ public class CameraControl : MonoBehaviour {
     void MoveWithTarget() {
         Vector3 _pos = positionOffset;
         targetRadius = TargetRadius();
-        Vector3 _angle = target.transform.eulerAngles;
+        currentAngle = target.transform.eulerAngles;
         _pos[1] += targetRadius;
         gameObject.transform.localPosition = _pos;
-        rotObj.transform.eulerAngles = (_angle);
+        rotObj.transform.eulerAngles = currentAngle;
     }
 
     // Find target Hypotenius
@@ -40,5 +52,21 @@ public class CameraControl : MonoBehaviour {
             _radius = Mathf.Sqrt(Mathf.Pow(_targetPos[0], 2f) + Mathf.Pow(_targetPos[1], 2f));
         }
         return _radius;
+    }
+
+    // Manual Mode
+    void Manual() {
+        int _direction = 0;
+        // Rotate Right
+        if (Input.GetKey(KeyCode.D)) {
+            _direction = -1;
+        }
+        // Rotate Left
+        else if (Input.GetKey(KeyCode.A)) {
+            _direction = 1;
+        }
+        // Update Position
+        currentAngle[manualAxis] += ((_direction * manualSpeed) * Time.deltaTime);
+        rotObj.transform.eulerAngles = currentAngle;
     }
 }

@@ -35,11 +35,15 @@ public class PlayerStats: MonoBehaviour {
     static float hunger = 100f;
 
     // Negatives (per day)
-    static float hungerRate = 0.5f;
-    static float feedingMultiplier = 4f;
-    static float starvationDmg = 10f;
+    const float HUNGER_RATE = 0.5f;
+    const float FEEDING_MULTIPLIER = 4f;
+    const float STARVATION_DMG = 10f;
 
     // MONOBEHAVIOUR -------------------------------------------------------
+    private void Awake() {
+        StatsReset();
+    }
+
     private void Update() {
         DamageGlow();
     }
@@ -90,7 +94,7 @@ public class PlayerStats: MonoBehaviour {
     static void HungerUpdate(float _foodIntake = 0) {
         // Decrease hunger daily
         if(_foodIntake == 0 && hunger > 0) {
-            hunger -= hungerRate;
+            hunger -= HUNGER_RATE;
             if(hunger < 0) {
                 hunger = 0;
             }
@@ -98,13 +102,13 @@ public class PlayerStats: MonoBehaviour {
         // Feed
         else if(_foodIntake > 0) {
             // Replanish hunger
-            hunger += ((hungerRate * feedingMultiplier) * _foodIntake);
+            hunger += ((HUNGER_RATE * FEEDING_MULTIPLIER) * _foodIntake);
             // Limnit hunger to 100
             if (hunger > 100f) {
                 hunger = 100f;
                 // Replanish life
                 if(health < 100f) {
-                    HealthUpdate(0, ((hungerRate * feedingMultiplier) * _foodIntake));
+                    HealthUpdate(0, ((HUNGER_RATE * FEEDING_MULTIPLIER) * _foodIntake));
                 }
             }
         }
@@ -164,7 +168,7 @@ public class PlayerStats: MonoBehaviour {
         }
         // Hunger
         if (hunger == 0) {
-            health -= starvationDmg;
+            health -= STARVATION_DMG;
         }
         // Attack Dmg
         if(_dmg > 0) {
@@ -192,4 +196,11 @@ public class PlayerStats: MonoBehaviour {
         return health;
     }
 
+    // Reset
+    public static void StatsReset() {
+        // Stats
+        health = 100f;
+        hunger = 100f;
+        growSize = 1f;
+    }
 }

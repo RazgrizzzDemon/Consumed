@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour {
 
@@ -75,6 +76,9 @@ public class UIController : MonoBehaviour {
         helpMenuPanelStat.SetActive(false);
         speechBubbleObjStat = speechBubbleObj;
         speechBubbleObjStat.SetActive(false);
+        powerPanel_isSwitchPos = false;
+        arePowersAvailable = false;
+        isHelpMenu = false;
     }
     // Use this for initialization
     void Start () {
@@ -185,11 +189,15 @@ public class UIController : MonoBehaviour {
         if (!isHelpMenu) {
             if (helpMenuPanelStat.activeSelf) {
                 helpMenuPanelStat.SetActive(false);
+                if (!arePowersAvailable) {
+                    Cursor.visible = false;
+                }
             }
             return;
         }
         else if (!helpMenuPanelStat.activeSelf) {
             helpMenuPanelStat.SetActive(true);
+            Cursor.visible = true;
         }
         // Speach bubble
         if (speechBubbleObjStat.activeSelf) {
@@ -220,5 +228,19 @@ public class UIController : MonoBehaviour {
         if (avaialbleSkills == 0) {
             powerPanel_isSwitchPos = true;
         }
+    }
+    // Restart Level
+    public void RestartLevel() {
+        PlayerControlls.LevelRestart();
+    }
+
+    // Go to Main Menu
+    public void MainMenu() {
+        SceneManager.LoadScene(0);
+    }
+
+    // Quit App
+    public void Quit() {
+        Application.Quit();
     }
 }

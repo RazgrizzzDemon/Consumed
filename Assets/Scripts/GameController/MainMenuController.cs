@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuController : MonoBehaviour {
 
-    enum sceneTypes { egg, hatch, portal, travel}
+    enum introSceneTypes { egg, hatch, portal, travel}
 
     // Book
     [Header("Scenes")]

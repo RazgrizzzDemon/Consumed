@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class BiomeController : MonoBehaviour {
 
     enum skyTypes { day, dawnDusk, night}
-    enum timeMultiplierTypes { normal, fast, fastest}
+    enum timeMultiplierTypes { normal, dayBlast, yearsBlast}
 
     // Biome Health
     [Header("Biome Helath")]
@@ -23,7 +23,7 @@ public class BiomeController : MonoBehaviour {
     public GameObject world;
     Vector3 worldBounds;
     public static float worldRadius;
-    static float[] timeMultiplier = new float[3] { 1f, 10f, 5000f};
+    static int[] timeMultiplier = new int[3] { 1, 10, 1}; // normal, days, years
     static int currentTimeMultiplier = 0;
     static int regrowStage = 0;
     static bool regrowStageUpdate = false;
@@ -78,6 +78,8 @@ public class BiomeController : MonoBehaviour {
 
     // MONOBEHAVIOUR --------------------------------------------------------------------
     private void Awake() {
+        // Reset Biome
+        BiomeReset();
         // Get Bounds
         worldBounds = world.GetComponent<Renderer>().bounds.size;
         // Get World Radius
@@ -159,39 +161,29 @@ public class BiomeController : MonoBehaviour {
             return;
         }
         // Time
-        worldClock = (worldClock + Time.deltaTime) * timeMultiplier[currentTimeMultiplier];
+        worldClock = (worldClock + Time.deltaTime);
+
         // One Day
         if(worldClock >= oneDayTime) {
-            // Update Alien
-            PlayerStats.DailyUpdate();
-            // Creatures Daily Updates
-            for (int i = 0; i < creatureSpecs.Length; i++) {
-                creatureSpecs[i].DailyUpdate();
-            }
-            // Vegitation Daily Updates
-            for (int i = 0; i < vegitationSpecs.Length; i++) {
-                vegitationSpecs[i].DailyUpdate();
-            }
-            // Reproductioon
-            Reproduce();
-            // Incrioment Days
-            worldDays++;
-            // + One Year
-            if(worldDays > 365) {
-                worldYears++;
-                worldDays = 1;
-                // Creatures Age
-                for (int i = 0; i < creatureSpecs.Length; i++) {
-                    creatureSpecs[i].AgeUpdate();
+            // Time Speed Up
+            // Days Blast
+            if (currentTimeMultiplier == (int)timeMultiplierTypes.dayBlast) {
+                for (int i = 0; i < timeMultiplier[currentTimeMultiplier]; i++) {
+                    DailyUpdate();
                 }
-                // Vegitation Age
-                for (int i = 0; i < vegitationSpecs.Length; i++) {
-                    vegitationSpecs[i].AgeUpdate();
+            }
+            // Year Blast
+            else if (currentTimeMultiplier == (int)timeMultiplierTypes.yearsBlast) {
+                for (int i = 0; i < timeMultiplier[currentTimeMultiplier]; i++) {
+                    for (int j = 0; j < 366; j++) {
+                        DailyUpdate();
+                    }
+                    YearlyUpdate();
                 }
                 // Regrowt
-                if(regrowStage > 0) {
+                if (regrowStage > 0) {
                     regrowStage++;
-                    if(regrowStage > 3) {
+                    if (regrowStage > 3) {
                         regrowStage = 0;
                     }
                     else {
@@ -199,10 +191,51 @@ public class BiomeController : MonoBehaviour {
                     }
                 }
             }
+            // Normal Speed
+            else {
+                DailyUpdate();
+                // + One Year
+                if (worldDays > 365) {
+                    YearlyUpdate();
+                }
+            }
+            
             // Reset Clock
             worldClock = 0f;
             // String Update
             UIController.YearUpdate("Days: " + worldDays + ", Years: " + worldYears);
+        }
+    }
+
+    // Daily Update
+    void DailyUpdate() {
+        // Update Alien
+        PlayerStats.DailyUpdate();
+        // Creatures Daily Updates
+        for (int i = 0; i < creatureSpecs.Length; i++) {
+            creatureSpecs[i].DailyUpdate();
+        }
+        // Vegitation Daily Updates
+        for (int i = 0; i < vegitationSpecs.Length; i++) {
+            vegitationSpecs[i].DailyUpdate();
+        }
+        // Reproductioon
+        Reproduce();
+        // Incrioment Days
+        worldDays++;
+    }
+
+    // Yearly Update
+    void YearlyUpdate() {
+        worldYears++;
+        worldDays = 1;
+        // Creatures Age
+        for (int i = 0; i < creatureSpecs.Length; i++) {
+            creatureSpecs[i].AgeUpdate();
+        }
+        // Vegitation Age
+        for (int i = 0; i < vegitationSpecs.Length; i++) {
+            vegitationSpecs[i].AgeUpdate();
         }
     }
 
@@ -393,6 +426,7 @@ public class BiomeController : MonoBehaviour {
 
     // Check for creatures to Reproduce
     static void Reproduce() {
+        bool _isDone = false;
         bool _haveMale = false;
         bool _haveFemale = false;
         int _femaleIndex = -1;
@@ -427,8 +461,12 @@ public class BiomeController : MonoBehaviour {
                     if (_haveFemale && _haveMale) {
                         LifeContainers[i].gameObject.transform.GetChild(_femaleIndex).gameObject.GetComponent<CreaturesBase>().Pregnant(true);
                         deathRate[i]--;
+                        _isDone = true;
                         break;
                     }
+                }
+                if (_isDone) {
+                    break;
                 }
             }
         }
@@ -464,7 +502,7 @@ public class BiomeController : MonoBehaviour {
         biomeMat.color = Color.Lerp(biomeHealthCol[1], biomeHealthCol[0], (biomeHealth / 100));
         biomeHealthUpdate = false;
         if(currentTimeMultiplier == (int)timeMultiplierTypes.normal && biomeHealth <= 0.9) {
-            currentTimeMultiplier = (int)timeMultiplierTypes.fast;
+            currentTimeMultiplier = (int)timeMultiplierTypes.dayBlast;
         }
     }
 
@@ -473,12 +511,13 @@ public class BiomeController : MonoBehaviour {
             return;
         }
         Debug.Log("Regrowt Started");
-        currentTimeMultiplier = (int)timeMultiplierTypes.fastest;
+        currentTimeMultiplier = (int)timeMultiplierTypes.yearsBlast;
         currentLifeContainer = 0;
         regrowStage = 1;
         regrowStageUpdate = true;
     }
 
+    // Regrowt
     void Regrow() {
         if(regrowStage == 0 || !regrowStageUpdate) {
             return;
@@ -507,6 +546,17 @@ public class BiomeController : MonoBehaviour {
         regrowStageUpdate = false;
         
         
+    }
+
+    // Reset Biome
+    static void BiomeReset() {
+        biomeHealth = 100;
+        currentTimeMultiplier = 0;
+        regrowStage = 0;
+        worldClock = 0f;
+        worldDays = 1;
+        worldYears = 0;
+        currentLifeContainer = 0;
     }
 
     // LIFE FORMS -------------------------------------------------------------------------------------------

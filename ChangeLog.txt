@@ -209,15 +209,34 @@ Intro - 11/5/18
 - Portal in intor scene 3.
 **
 
+General - 11/5/18
+- If player dies, hiting escape will restart the level.
+- Static Objects reset on restart.
+
+UI - 11/5/18
+- Reset level button.
+- Main Menu Buton.
+- Quit App button.
+
+Camera - 11/5/18
+- When creature dies, camera can be manualy rotated using A and D to rome the planet.
+
+Biome - 11/5/18
+- Fixed time boost.
+- Fixed bug in reproduction loop. Now exits after a partner is found.
+- Year balast head to be reduced from 10 to 1 caus the for loop was having to much to calculate and the game was freezing.
+  will need to send the amount of time passed and update ceratures accordingly.
 _____________________________________________________________________
 TO DO
 ------
 Biome
 * Fine tune date and stats
+* Not all trees spawn after regeneration
 
 UI
-* Main Menu
-* Create portal in Intro scene 3
+* Restart
+* Quit
+* CXamera revolves when player is dead to observe planet
 
 Alien
 * take damge if bite after entering trigger.

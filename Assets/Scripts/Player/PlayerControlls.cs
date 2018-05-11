@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerControlls : MonoBehaviour {
 
@@ -35,6 +36,9 @@ public class PlayerControlls : MonoBehaviour {
     public static bool controlLock = true;
 
     private void Awake() {
+        // Reset
+        ControlReset();
+        // Setup
         playerRigidBody = GetComponent<Rigidbody>();
         modelTransformGrp = gameObject.transform.GetChild(0).gameObject;
         animator = modelTransformGrp.transform.GetChild(0).gameObject.GetComponent<Animator>();
@@ -73,14 +77,26 @@ public class PlayerControlls : MonoBehaviour {
     void ControlPlayer() {
         // Help Menu
         if (Input.GetKeyDown(KeyCode.Escape)) {
-            UIController.ToggleHelpMenu();
+            if (PlayerStats.GetHealth() == 0) {
+                LevelRestart();
+            }
+            else {
+                UIController.ToggleHelpMenu();
+            }
+                
         }
 
         if (controlLock) {
             moveDir = new Vector3();
-            if (PlayerStats.GetHealth() == 0 && !animator.GetBool("DieAnim")) {
-                animator.SetBool("BiteAnim", false);
-                animator.SetBool("DieAnim", true);
+            // Death
+            if (PlayerStats.GetHealth() == 0) {
+                if (!animator.GetBool("DieAnim")) {
+                    animator.SetBool("BiteAnim", false);
+                    animator.SetBool("DieAnim", true);
+                }
+                if (!CameraControl.isManual){
+                    CameraControl.isManual = true;
+                }
             }
             return;
         }
@@ -182,6 +198,19 @@ public class PlayerControlls : MonoBehaviour {
         }
         _rot[_axis] = _angle;
         transform.localEulerAngles = _rot;
+    }
+
+    // Reset
+    static void ControlReset() {
+        doubleSpeed = false;
+        jumpLock = true;
+        isOmnivore = false;
+        controlLock = true;
+    }
+
+    // Level restart
+    public static void LevelRestart() {
+        SceneManager.LoadScene(1);
     }
 
     // TRIGGERS ----------------------------------------------------------
