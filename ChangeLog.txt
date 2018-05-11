@@ -200,6 +200,15 @@ UI - 10/5/18
 Intro - 10/5/18
 - Removed book scene.
 - Created static scenes with paralex story board.
+
+####################################################
+
+Intro - 11/5/18
+- A blackout feature was added
+- Baked light for intro.
+- Portal in intor scene 3.
+**
+
 _____________________________________________________________________
 TO DO
 ------

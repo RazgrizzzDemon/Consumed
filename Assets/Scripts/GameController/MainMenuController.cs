@@ -21,6 +21,7 @@ public class MainMenuController : MonoBehaviour {
     public float blackoutDuration = 1;
     float currentBlackoutTime = 0f;
     bool isBlackOut = false;
+    bool isInitialFade = true;
 
     // MONOBEHAVIOR --------------------------------------------------
     private void Awake() {
@@ -28,6 +29,8 @@ public class MainMenuController : MonoBehaviour {
         for (int i = 1; i < scenes.Length; i++) {
             scenes[i].SetActive(false);
         }
+        // Set to Black screen
+        blackoutImage.color = blackoutColors[1];
     }
 
     // Use this for initialization
@@ -37,7 +40,8 @@ public class MainMenuController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (isBlackOut) {
+        if (isBlackOut || isInitialFade) {
+            initialFade();
             BlackOut();
             return;
         }
@@ -70,6 +74,20 @@ public class MainMenuController : MonoBehaviour {
         isUpdate = false;
     }
 
+    // Initial Fade In
+    void initialFade() {
+        if (isInitialFade) {
+            currentBlackoutTime += Time.deltaTime;
+            float _normalized = currentBlackoutTime / (blackoutDuration / 2f);
+            blackoutImage.color = Color.Lerp(blackoutColors[1], blackoutColors[0], _normalized);
+            if(_normalized >= 1) {
+                isInitialFade = false;
+                currentBlackoutTime = 0;
+            }
+        }
+    }
+
+    // CSene Cahnge
     void BlackOut() {
         if (isBlackOut) {
             currentBlackoutTime += Time.deltaTime;
