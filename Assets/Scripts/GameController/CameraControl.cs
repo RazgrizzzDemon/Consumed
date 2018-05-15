@@ -10,7 +10,7 @@ public class CameraControl : MonoBehaviour {
     public float manualSpeed;
     public int manualAxis = 2;
     float targetRadius;
-    Vector3 currentAngle;
+    public static Vector3 currentAngle;
 
     public static bool isManual = false;
 

@@ -23,7 +23,7 @@ public class BiomeController : MonoBehaviour {
     public GameObject world;
     Vector3 worldBounds;
     public static float worldRadius;
-    static int[] timeMultiplier = new int[3] { 1, 10, 1}; // normal, days, years
+    static int[] timeMultiplier = new int[3] { 1, 10, 10}; // normal, days, years
     static int currentTimeMultiplier = 0;
     static int regrowStage = 0;
     static bool regrowStageUpdate = false;
@@ -168,28 +168,13 @@ public class BiomeController : MonoBehaviour {
             // Time Speed Up
             // Days Blast
             if (currentTimeMultiplier == (int)timeMultiplierTypes.dayBlast) {
-                for (int i = 0; i < timeMultiplier[currentTimeMultiplier]; i++) {
-                    DailyUpdate();
-                }
+                TimeLock(true);
+                StartCoroutine(DayBlast());
             }
             // Year Blast
             else if (currentTimeMultiplier == (int)timeMultiplierTypes.yearsBlast) {
-                for (int i = 0; i < timeMultiplier[currentTimeMultiplier]; i++) {
-                    for (int j = 0; j < 366; j++) {
-                        DailyUpdate();
-                    }
-                    YearlyUpdate();
-                }
-                // Regrowt
-                if (regrowStage > 0) {
-                    regrowStage++;
-                    if (regrowStage > 3) {
-                        regrowStage = 0;
-                    }
-                    else {
-                        regrowStageUpdate = true;
-                    }
-                }
+                TimeLock(true);
+                StartCoroutine(YearBlast());
             }
             // Normal Speed
             else {
@@ -241,7 +226,14 @@ public class BiomeController : MonoBehaviour {
 
     // Sky Colour
     void SkyColor() {
-        float _playerAngle = PlayerControlls.worldAngleDeg;
+        float _playerAngle = CameraControl.currentAngle[2] + 90;
+        // Limit from 0 - 360
+        if(_playerAngle > 360) {
+            _playerAngle -= 360f;
+        }
+        else if(_playerAngle < 0) {
+            _playerAngle = 360f + _playerAngle;
+        }
         bool _isSkyUpdate = false;
         bool _isDayToNight = true;
         float _normalized = 0f;
@@ -557,6 +549,47 @@ public class BiomeController : MonoBehaviour {
         worldDays = 1;
         worldYears = 0;
         currentLifeContainer = 0;
+    }
+
+    // TIME SPEED -------------------------------------------------------------------------------------------
+    IEnumerator YearBlast() {
+        int _times = 0;
+        int _devider = 4;
+        int _days = 366;
+        for (int i = 0; i < timeMultiplier[currentTimeMultiplier]; i++) {
+            for (int j = 0; j < _days; j++) {
+                DailyUpdate();
+                if(j > (_days / _devider) * _times) {
+                    yield return _times++;
+                }
+            }
+            yield return null;
+            YearlyUpdate();
+            yield return null;
+        }
+        // Regrowt
+        if (regrowStage > 0) {
+            regrowStage++;
+            if (regrowStage > 3) {
+                regrowStage = 0;
+            }
+            else {
+                regrowStageUpdate = true;
+            }
+        }
+        TimeLock(false);
+    }
+
+    IEnumerator DayBlast() {
+        for (int i = 0; i < timeMultiplier[currentTimeMultiplier]; i++) {
+            DailyUpdate();
+            yield return null;
+        }
+        TimeLock(false);
+    }
+
+    void TimeLock(bool _ans) {
+        isPaused = _ans;
     }
 
     // LIFE FORMS -------------------------------------------------------------------------------------------
