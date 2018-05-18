@@ -202,9 +202,9 @@ public class PlayerControlls : MonoBehaviour {
 
     // Reset
     static void ControlReset() {
-        doubleSpeed = true;
+        doubleSpeed = false;
         jumpLock = true;
-        isOmnivore = true;
+        isOmnivore = false;
         controlLock = true;
     }
 

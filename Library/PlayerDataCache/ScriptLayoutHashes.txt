@@ -191,7 +191,7 @@ d2a2bd333db22f480a8589e167314ecc Vuforia.UnityExtensions.dll:Vuforia.UserDefined
 15bea26698002c6c4a3087131232ce5c Vuforia.UnityExtensions.dll:Vuforia.WordBehaviour
 7027bfffabf0e6b9e198824dfeb80538 Assembly-CSharp.dll:.UIController
 33849555c1264fa9bd40ecb2ed992314 Assembly-CSharp.dll:.PlayerControlls
-764de8508981a9fc6916b354752e8ed6 Assembly-CSharp.dll:.CameraControl
+3a1e1c9df8b80b0fd4352d4756593039 Assembly-CSharp.dll:.CameraControl
 205965134a5874db410d674ebdf33ba7 Assembly-CSharp.dll:.ExampleWheelController
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Advertisements.dll:UnityEngine.Advertisements.CallbackExecutor
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Advertisements.dll:UnityEngine.Advertisements.Editor.Placeholder
