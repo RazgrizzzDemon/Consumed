@@ -232,6 +232,13 @@ Biome - 15/5/18
 - Speed balst is now a Coroutine. Improved gameplay fps by still needs fine tuning.
 - Sun light is now dependednt on camera angle so that when player dies and you are on free roam,
   sunset and sun rise still occures.
+
+####################################################
+
+Stat - 19/5/18
+- Feeding multiplier was incresed from 4 to 20.
+- Health now regenarates from 80% food (hunger meter).
+
 _____________________________________________________________________
 TO DO
 ------

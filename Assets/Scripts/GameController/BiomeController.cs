@@ -16,6 +16,7 @@ public class BiomeController : MonoBehaviour {
     static float biomeHealth = 100;
     static int totalBiomeSpecies = 0;
     static bool biomeHealthUpdate = true;
+    const float biomeHealthTrashHold = 0.9f;
 
 
     // World
@@ -493,13 +494,14 @@ public class BiomeController : MonoBehaviour {
         }
         biomeMat.color = Color.Lerp(biomeHealthCol[1], biomeHealthCol[0], (biomeHealth / 100));
         biomeHealthUpdate = false;
-        if(currentTimeMultiplier == (int)timeMultiplierTypes.normal && biomeHealth <= 0.9) {
+        // Kill player Fast
+        if(currentTimeMultiplier == (int)timeMultiplierTypes.normal && biomeHealth <= biomeHealthTrashHold) {
             currentTimeMultiplier = (int)timeMultiplierTypes.dayBlast;
         }
     }
 
     public static void StartRegrowt() {
-        if(biomeHealth > 0.9) {
+        if(biomeHealth > biomeHealthTrashHold) {
             return;
         }
         Debug.Log("Regrowt Started");

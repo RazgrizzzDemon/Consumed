@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerStats: MonoBehaviour {
 
@@ -36,7 +37,7 @@ public class PlayerStats: MonoBehaviour {
 
     // Negatives (per day)
     const float HUNGER_RATE = 0.5f;
-    const float FEEDING_MULTIPLIER = 4f;
+    const float FEEDING_MULTIPLIER = 20f;
     const float STARVATION_DMG = 10f;
 
     // MONOBEHAVIOUR -------------------------------------------------------
@@ -103,12 +104,16 @@ public class PlayerStats: MonoBehaviour {
         else if(_foodIntake > 0) {
             // Replanish hunger
             hunger += ((HUNGER_RATE * FEEDING_MULTIPLIER) * _foodIntake);
-            // Limnit hunger to 100
-            if (hunger > 100f) {
-                hunger = 100f;
+            if(hunger > 80f) {
                 // Replanish life
-                if(health < 100f) {
+                if (health < 100f) {
+                    Debug.Log("Hello");
                     HealthUpdate(0, ((HUNGER_RATE * FEEDING_MULTIPLIER) * _foodIntake));
+                }
+                // Limnit hunger to 100
+                if (hunger > 100f) {
+                    hunger = 100f;
+
                 }
             }
         }
@@ -185,7 +190,6 @@ public class PlayerStats: MonoBehaviour {
         if(health < 0) {
             health = 0;
         }
-        
     }
 
     public float GetSize() {

@@ -675,6 +675,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114466916981219418, guid: a339639212e8625489a5540a6c21c550,
+        type: 2}
+      propertyPath: hungerText
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114466916981219418, guid: a339639212e8625489a5540a6c21c550,
+        type: 2}
+      propertyPath: healthText
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a339639212e8625489a5540a6c21c550, type: 2}
   m_IsPrefabParent: 0
@@ -11940,6 +11950,14 @@ Prefab:
     - target: {fileID: 1090588672900362, guid: dd49733e6a9a24d4ea6436c2e1635bea, type: 2}
       propertyPath: m_StaticEditorFlags
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4806622071195652, guid: dd49733e6a9a24d4ea6436c2e1635bea, type: 2}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4123004179462454, guid: dd49733e6a9a24d4ea6436c2e1635bea, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: dd49733e6a9a24d4ea6436c2e1635bea, type: 2}
