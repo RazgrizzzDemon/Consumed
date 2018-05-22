@@ -239,6 +239,11 @@ Stat - 19/5/18
 - Feeding multiplier was incresed from 4 to 20.
 - Health now regenarates from 80% food (hunger meter).
 
+####################################################
+
+Unity - 22/5/18
+- Updated to Unity 2018.1.1f1 for better performance.
+
 _____________________________________________________________________
 TO DO
 ------
